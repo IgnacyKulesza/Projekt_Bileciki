@@ -12,7 +12,7 @@ CREATE TABLE Koncerty
 
 CREATE TABLE Bilety
 (
-	id_biletu INTEGER PRIMARY KEY,
+	id_biletu VARCHAR PRIMARY KEY,
 	czy_zeskanowane BOOL,
 	imie VARCHAR(31),
 	nazwisko VARCHAR(63),
