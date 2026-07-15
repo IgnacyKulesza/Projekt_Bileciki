@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS Koncerty;
 CREATE TABLE Koncerty
 (
 	id_koncertu INTEGER PRIMARY KEY,
-	czas DATETIME,
+	czas DATE,
 	nazwa VARCHAR(31),
 	zespol VARCHAR(127),
 	opis VARCHAR(513)
