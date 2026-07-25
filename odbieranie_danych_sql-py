@@ -1,0 +1,29 @@
+import psycopg2
+
+def postgres():
+
+    polaczenie=psycopg2.connect(
+        host='localhost',
+        port='5432',
+        database= 'PlaceholderCuzIdkWhatsTheName',
+        user='postgres',
+        password=''
+
+    )
+
+    kursor=polaczenie.cursor()
+    return polaczenie,kursor
+
+def getData(kursor,tabela,kolumna):
+    kursor.execute(f'SELECT {kolumna} FROM {tabela}')
+    dane = kursor.fetchall()
+
+    return dane
+
+
+
+polaczenie,kursor = postgres()
+print(getData(kursor,'lekarze', 'dyspozycyjność'))
+polaczenie.commit()
+kursor.close()
+polaczenie.close()
