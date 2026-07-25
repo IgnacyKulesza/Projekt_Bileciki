@@ -1,0 +1,39 @@
+import psycopg2
+
+def postgres():
+
+    polaczenie=psycopg2.connect(
+        host='localhost',
+        port='5432',
+        database= 'PlaceholderCuzIdkWhatsTheName',
+        user='postgres',
+        password=''
+
+    )
+
+    kursor=polaczenie.cursor()
+    return polaczenie,kursor
+
+
+def insert(kursor,tabela,argument1,argument2,argument3,argument4,argument5):
+    if tabela in ('Koncery', 'Bilety'):
+        kursor.execute(f'INSERT INTO {tabela}'
+                        'VALUES(DEFAULT,%s,%s,%s,%s,%s))',(argument1,argument2,argument3,argument4,argument5))
+        print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, ")
+
+def deleteValue(kursor,tabela,usuwane):
+    kursor.execute(f'DELETE FROM {tabela} WHERE idlekarza = %s',usuwane)
+    
+
+def edit(kursor,tabela,kolumna,zedytowane,idelementu):
+    if tabela == 'Koncerty':
+        kursor.execute('UPDATE Koncerty SET '+kolumna+' = %s WHERE id_koncertu = %s',(zedytowane,idelementu))
+    elif tabela == 'Bilety':
+        kursor.execute('UPDATE Bilety SET '+kolumna+' = %s WHERE id_biletu = %s',(zedytowane,idelementu))
+    
+
+
+polaczenie,kursor=postgres()
+polaczenie.commit()
+kursor.close()
+polaczenie.close()
