@@ -1,14 +1,14 @@
 import psycopg
+from config import Config
 
 def postgres():
 
     polaczenie=psycopg.connect(
-        host='localhost',
-        port='5432',
-        database= 'PlaceholderCuzIdkWhatsTheName',
-        user='postgres',
-        password='admin'
-
+        host=Config.DATABASE_HOST,
+        port=Config.DATABASE_PORT,
+        database= Config.DATABASE_NAME,
+        user=Config.DATABASE_USER,
+        password=Config.DATABASE_PASSWORD
     )
 
     kursor=polaczenie.cursor()
