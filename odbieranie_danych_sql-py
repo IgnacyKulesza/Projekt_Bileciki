@@ -1,8 +1,8 @@
-import psycopg2
+import psycopg
 
 def postgres():
 
-    polaczenie=psycopg2.connect(
+    polaczenie=psycopg.connect(
         host='localhost',
         port='5432',
         database= 'PlaceholderCuzIdkWhatsTheName',
