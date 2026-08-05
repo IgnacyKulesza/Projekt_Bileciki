@@ -7,7 +7,8 @@ CREATE TABLE Koncerty
 	czas DATE,
 	nazwa VARCHAR(31),
 	zespol VARCHAR(127),
-	opis VARCHAR(513)
+	opis VARCHAR(513),
+	ilosc_biletow INTEGER
 );
 
 CREATE TABLE Bilety
