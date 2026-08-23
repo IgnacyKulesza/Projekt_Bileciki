@@ -15,13 +15,13 @@ def postgres():
     )
 
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder="HTML")
 
 
 # zrobić dla każdej strony
 @app.route('/')
 def index():
-    return render_template('./index.html')
+    return render_template('index.html')
 
 
 # submitowanie danych do serwera
@@ -38,7 +38,7 @@ def approute_koncerty():
     kursor.close()
     polaczenie.close()
 
-    return redirect(url_for('koncerty'))
+    return redirect(url_for('Koncerty'))
 
 
 # submitowanie danych do serwera
