@@ -1,14 +1,14 @@
 import psycopg
+from config import Config
 
 def postgres():
 
     polaczenie=psycopg.connect(
-        host='localhost',
-        port='5432',
-        database= 'PlaceholderCuzIdkWhatsTheName',
-        user='postgres',
-        password=''
-
+        host=Config.DATABASE_HOST,
+        port=Config.DATABASE_PORT,
+        database= Config.DATABASE_NAME,
+        user=Config.DATABASE_USER,
+        password=Config.DATABASE_PASSWORD
     )
 
     kursor=polaczenie.cursor()
@@ -21,8 +21,12 @@ def insert(kursor,tabela,argument1,argument2,argument3,argument4,argument5):
                         'VALUES(DEFAULT,%s,%s,%s,%s,%s))',(argument1,argument2,argument3,argument4,argument5))
         print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, ")
 
-def deleteValue(kursor,tabela,usuwane):
-    kursor.execute(f'DELETE FROM {tabela} WHERE idlekarza = %s',usuwane)
+def delete(kursor,tabela,usuwane):
+    if tabela=="koncerty":
+        kursor.execute(f'DELETE FROM {tabela} WHERE id_koncertu = %s',usuwane)
+    elif tabela=="bilety":
+        kursor.execute(f'DELETE FROM {tabela} WHERE id_biletu = %s',usuwane)
+
     
 
 def edit(kursor,tabela,kolumna,zedytowane,idelementu):

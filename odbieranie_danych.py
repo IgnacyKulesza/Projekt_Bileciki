@@ -23,7 +23,6 @@ def getData(kursor,tabela,kolumna):
 
 
 polaczenie,kursor = postgres()
-print(getData(kursor,'lekarze', 'dyspozycyjność'))
 polaczenie.commit()
 kursor.close()
 polaczenie.close()
