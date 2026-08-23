@@ -34,11 +34,12 @@ def approute_koncerty():
     opis = request.form['opis']
 
     polaczenie,kursor = postgres()
+    edycja.insert(kursor,"Bilety",id_koncertu,czas,nazwa,zespol,opis)
     polaczenie.commit()
     kursor.close()
     polaczenie.close()
 
-    return redirect(url_for('Koncerty'))
+    return redirect(url_for('koncerty'))
 
 
 # submitowanie danych do serwera
@@ -51,6 +52,7 @@ def approute_koncerty():
     id_koncertu = request.form['id_koncertu']
 
     polaczenie,kursor = postgres()
+    edycja.insert(kursor,"Bilety",id_biletu,czy_zeskanowane,imie,nazwisko,id_koncertu)
     polaczenie.commit()
     kursor.close()
     polaczenie.close()

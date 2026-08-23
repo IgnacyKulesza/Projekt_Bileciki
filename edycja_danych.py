@@ -19,7 +19,7 @@ def insert(kursor,tabela,argument1,argument2,argument3,argument4,argument5):
     if tabela in ('Koncery', 'Bilety'):
         kursor.execute(f'INSERT INTO {tabela}'
                         'VALUES(DEFAULT,%s,%s,%s,%s,%s))',(argument1,argument2,argument3,argument4,argument5))
-        print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, ")
+        print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, {argument5}")
 
 def delete(kursor,tabela,usuwane):
     if tabela=="koncerty":
