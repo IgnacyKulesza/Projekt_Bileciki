@@ -75,4 +75,4 @@ def submit_dane():
 
 
 # edycja danych
-@app.route('/get_bilety', methods=[])
+# @app.route('/get_bilety', methods=[])

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Koncertowo</title>
+    <link rel="stylesheet" href="stylizowanie.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+</head>
+
+<body>
+    <div class = "login-card">
+        <header class = "login-header">
+            <div class = "logo"> ♫</div>
+            <div class = "text-group">
+                <h1 class = "title">Koncertowo</h1>
+                <p class = "sub-title">System zarządzania <br> biletami i koncertami</p>
+            </div>
+        </header>
+        <form action="glowna.html">
+            <div class = "login-form">
+                <div class = "field" id = "email">
+                    <label for = "email-input" class = "field-text">Email</label>
+                    <input class = "input" id = "email-input" type = "email" placeholder="jan.kowalski@gmail.com" required>
+                </div>
+                <div class = "field" id = "haslo">
+                    <label for = "email-input" class = "field-text">Hasło</label>
+                    <input class = "input" id = "email-input" type = "password" placeholder="Hasło" required>
+                </div>
+                <footer class = "form-footer-options">
+                    <div class = "checkbox">
+                        <input type="checkbox" id = "zapamietaj-mnie">
+                        <label for = "zapamietaj-mnie">Zapamiętaj mnie</label>
+                    </div>
+                    <a class = "nie-pamietasz-hasla" href = "#">Nie pamiętasz hasła?</a>
+                </footer>
+            </div>
+            <button type="submit" class = "zaloguj-sie"><p>Zaloguj się</p></button>
+        </form>
+    </div>
+</body>
+
+</html>
