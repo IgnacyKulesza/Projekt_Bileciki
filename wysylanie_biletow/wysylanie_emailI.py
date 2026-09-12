@@ -31,4 +31,4 @@ def send_email(email_odbiorcy,id_biletu,imie,koncert):
     with smtplib.SMTP('smtp.gmail.com', 587) as server: # claude powiedzał że gmail używa portu 587 więc się posłucham
         server.starttls()
         server.login(adres_email, "hało_do_maila_czy_coś")
-        server.send_message(mail)
+        server.send_message(mail) 
