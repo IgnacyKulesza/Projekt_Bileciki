@@ -1,0 +1,121 @@
+body {
+    display: flex;
+    justify-content: center; /* horizontal */
+    align-items: center;    /* vertical */
+    min-height: 100vh;
+    background-color: #F8FAFC;
+    font-family: 'Inter';
+}
+
+.login-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    gap: 32px;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+}
+
+.login-header{
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: #2563EB;
+    color: #FFFFFF;
+    border-radius: 10px;
+    font-size: 40px;
+}
+
+.text-group{
+    display: flex;
+    width:fit-content;
+    flex-direction: column;
+    gap: 0px;
+}
+
+.title{
+    font-weight: 900;
+    margin: 0;
+}
+
+.sub-title{
+    margin: 0;
+    align-self: center;
+    font-size: 14px;
+    color: #64748B;
+}
+
+.login-form{
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+}
+
+.field-text{
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    
+}
+
+.input{
+    width: 360px;
+    height: 32px;
+    padding: 12px;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    color: black;
+}
+
+.input:focus{
+    border-color: #2563EB;
+    outline: none;
+}
+
+.form-footer-options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.checkbox{
+    color: #475569;
+}
+
+.nie-pamietasz-hasla{
+    color:#2563EB;
+}
+
+.zaloguj-sie{
+    background-color: #2563EB;
+    width: 100%;
+    margin-top: 32px;
+    padding: 6px 12px;
+    border: none;
+    box-sizing: border-box;
+    align-items: center;
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-size: x-large;
+}
+
+.zaloguj-sie p{
+    margin: 10px;
+}

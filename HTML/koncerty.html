@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Koncertowo-Główna</title>
+        <link rel="stylesheet" href="static/stylizowanie_glowna.css">
+        <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    </head>
+    <body>
+        <div class = "sidebar" id = "sidebar_strona_glowna">
+            <div class = "logo-area">
+                <p class = "title">Koncertowo</p>
+            </div>
+            <ul class = "navbar">
+                <a href = /strona-glowna><li class = "menu_item" id = "glowna">
+                    <p class = "menu_item_text">Główna</p>
+                </li></a>
+                <li class = "menu_item_active" id = "koncerty">
+                    <p class = "menu_item_text">Koncerty</p>
+                </li>
+                <a href = /bilety><li class = "menu_item" id = "kody_qr">
+                    <p class = "menu_item_text">Generuj Bilet</p>
+                </li></a>
+                <a href = /ustawienia><li class = "menu_item" id = "ustawienia">
+                    <p class = "menu_item_text">Ustawienia</p>
+                </li></a>
+            </ul>
+        </div>
+        <div class = "main-content-area">
+            <header class = "topbar">
+                <div class = "topbar_actions">
+                    <p class = "koncertowo_tytul">Koncertowo SaaS v1.2</p>
+                </div>
+            </header>
+            <div class = "scrollable_body">
+                <header class = "section_header"></header>
+                <div class = "split_workspace">
+                    <div class = "table_area">
+                    <header class = "table_header">
+                        <div class = "title_block">
+                            <p class = "main_title_table">Ostatnio dodane koncerty</p>
+                            <p class = "sub_title_table">Lista ostatnio dodanych koncertów w systemie</p>
+                        </div>
+                    </header>
+                    <ul>
+                        <table class = "tabela">
+                            <tr class = "table_column_names">
+                               <th>NAZWA</th>
+                               <th>DATA</th>
+                               <th>LOKALIZACJA</th>
+                               <th>BILETY</th> 
+                            </tr>
+
+                            <tr class="table_column">
+                                <td>Imagine Dragons</td>
+                                <td>15.09.2026</td>
+                                <td>Warszawa, PGE Narodowy</td>
+                                <td>280</td>
+                            </tr>
+
+                            <tr class="table_column">
+                                <td>Metallica</td>
+                                <td>22.09.2026</td>
+                                <td>Berlin, Olympiastadion</td>
+                                <td>315</td>
+                            </tr>
+
+                            <tr class="table_column">
+                                <td>Lady Gaga</td>
+                                <td>03.10.2026</td>
+                                <td>Łódź, Atlas Arena</td>
+                                <td>245</td>
+                            </tr>
+
+                            <tr class="table_column">
+                                <td>Quebonafide</td>
+                                <td>10.10.2026</td>
+                                <td>Poznań, MTP</td>
+                                <td>320</td>
+                            </tr>
+
+                            <tr class="table_column">
+                                <td>Sanah</td>
+                                <td>18.10.2026</td>
+                                <td>Wrocław, Hala Stulecia</td>
+                                <td>290</td>
+                            </tr> 
+                        </table>
+                    </ul>
+                    <div class = "pagination">
+                        <p class = "counter_how_many_seen">Wyświetlono 1-5 z 24 koncertów</p>
+                        <div class = "pages">
+                            <ul>
+                                <li class = "page_button">&lt;</li>
+                                <li class = "page_button_active">1</li>
+                                <li class = "page_button">2</li>
+                                <li class = "page_button">3</li>
+                                <li class = "page_button">&gt;</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+    </body>
+</html>

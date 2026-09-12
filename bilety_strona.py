@@ -14,8 +14,11 @@ def postgres():
         password=Config.DATABASE_PASSWORD
     )
 
+    kursor=polaczenie.cursor()
+    return polaczenie,kursor
 
-app = Flask(__name__,template_folder="HTML")
+
+app = Flask(__name__, template_folder="HTML", static_folder="HTML/static")
 
 
 # zrobić dla każdej strony
@@ -23,6 +26,21 @@ app = Flask(__name__,template_folder="HTML")
 def index():
     return render_template('index.html')
 
+@app.route('/strona-glowna')
+def strona_glowna():
+    return render_template('glowna.html')
+
+@app.route('/koncerty')
+def koncerty():
+    return render_template('koncerty.html')
+
+@app.route('/bilety')
+def bilety():
+    return render_template('bilety.html')
+
+@app.route('/ustawienia')
+def ustawienia():
+    return render_template('ustawienia.html')
 
 # submitowanie danych do serwera
 @app.route('/submit_koncerty',methods=['POST'])
@@ -44,7 +62,7 @@ def approute_koncerty():
 
 # submitowanie danych do serwera
 @app.route('/submit_bilety',methods=['POST'])
-def approute_koncerty():
+def approute_bilety():
     id_biletu = request.form['id_biletu']
     czy_zeskanowane = request.form['czy_zeskanowane']
     imie = request.form['imie']
@@ -75,4 +93,6 @@ def submit_dane():
 
 
 # edycja danych
-@app.route('/get_bilety', methods=[])
+# @app.route('/get_bilety', methods=[])
+
+if __name__ == "__main__": app.run(debug=True)

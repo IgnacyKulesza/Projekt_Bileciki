@@ -1,19 +1,6 @@
 import psycopg
 from config import Config
 
-def postgres():
-
-    polaczenie=psycopg.connect(
-        host=Config.DATABASE_HOST,
-        port=Config.DATABASE_PORT,
-        database= Config.DATABASE_NAME,
-        user=Config.DATABASE_USER,
-        password=Config.DATABASE_PASSWORD
-    )
-
-    kursor=polaczenie.cursor()
-    return polaczenie,kursor
-
 
 def insert(kursor,tabela,argument1,argument2,argument3,argument4,argument5):
     if tabela in ('Koncery', 'Bilety'):
@@ -37,7 +24,7 @@ def edit(kursor,tabela,kolumna,zedytowane,idelementu):
     
 
 
-polaczenie,kursor=postgres()
-polaczenie.commit()
-kursor.close()
-polaczenie.close()
+# polaczenie,kursor=postgres()
+# polaczenie.commit()
+# kursor.close()
+# polaczenie.close()

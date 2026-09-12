@@ -1,18 +1,18 @@
 import psycopg
 from config import Config
 
-def postgres():
+# def postgres():
 
-    polaczenie=psycopg.connect(
-        host=Config.DATABASE_HOST,
-        port=Config.DATABASE_PORT,
-        database= Config.DATABASE_NAME,
-        user=Config.DATABASE_USER,
-        password=Config.DATABASE_PASSWORD
-    )
+#     polaczenie=psycopg.connect(
+#         host=Config.DATABASE_HOST,
+#         port=Config.DATABASE_PORT,
+#         database= Config.DATABASE_NAME,
+#         user=Config.DATABASE_USER,
+#         password=Config.DATABASE_PASSWORD
+#     )
 
-    kursor=polaczenie.cursor()
-    return polaczenie,kursor
+#     kursor=polaczenie.cursor()
+#     return polaczenie,kursor
 
 def getData(kursor,tabela,kolumna):
     kursor.execute(f'SELECT {kolumna} FROM {tabela}')
@@ -22,7 +22,7 @@ def getData(kursor,tabela,kolumna):
 
 
 
-polaczenie,kursor = postgres()
-polaczenie.commit()
-kursor.close()
-polaczenie.close()
+# polaczenie,kursor = postgres()
+# polaczenie.commit()
+# kursor.close()
+# polaczenie.close()
