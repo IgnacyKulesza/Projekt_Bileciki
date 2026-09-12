@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <title>Koncertowo</title>
-    <link rel="stylesheet" href="stylizowanie.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylizowanie.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
 </head>
 
@@ -15,7 +15,7 @@
                 <p class = "sub-title">System zarządzania <br> biletami i koncertami</p>
             </div>
         </header>
-        <form action="glowna.html">
+        <form action="strona-glowna">
             <div class = "login-form">
                 <div class = "field" id = "email">
                     <label for = "email-input" class = "field-text">Email</label>

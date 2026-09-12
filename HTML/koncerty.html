@@ -2,7 +2,7 @@
 <html lang="pl">
     <head>
         <title>Koncertowo-Główna</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='stylizowanie_glowna.css') }}">
+        <link rel="stylesheet" href="static/stylizowanie_glowna.css">
         <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     </head>
     <body>
@@ -11,16 +11,16 @@
                 <p class = "title">Koncertowo</p>
             </div>
             <ul class = "navbar">
-                <li class = "menu_item_active" id = "panel_glowny">
-                    <p class = "menu_item_text">Panel Główny</p>
-                </li>
-                <a href = koncerty><li class = "menu_item" id = "koncerty">
-                    <p class = "menu_item_text">Koncerty</p>
+                <a href = /strona-glowna><li class = "menu_item" id = "glowna">
+                    <p class = "menu_item_text">Główna</p>
                 </li></a>
-                <a href = bilety><li class = "menu_item" id = "kody_qr">
+                <li class = "menu_item_active" id = "koncerty">
+                    <p class = "menu_item_text">Koncerty</p>
+                </li>
+                <a href = /bilety><li class = "menu_item" id = "kody_qr">
                     <p class = "menu_item_text">Generuj Bilet</p>
                 </li></a>
-                <a href = ustawienia><li class = "menu_item" id = "ustawienia">
+                <a href = /ustawienia><li class = "menu_item" id = "ustawienia">
                     <p class = "menu_item_text">Ustawienia</p>
                 </li></a>
             </ul>
@@ -32,36 +32,9 @@
                 </div>
             </header>
             <div class = "scrollable_body">
-                <ul class = "KPI_row">
-                    <li class = "stat_card" id = "liczba_koncertow">
-                        <header class = "stat_header">
-                            <p class = "stat_title">Liczba Koncertów</p>
-                            <div class = "icon_wrapper">
-                                <p class = "stat_icon">♫</p>
-                            </div>
-                        </header>
-                        <p class = "stat_body">24</p>
-                    </li>
-                    <li class = "stat_card" id = "liczba_koncertow">
-                        <header class = "stat_header">
-                            <p class = "stat_title">Sprzedane Bilety</p>
-                            <div class = "icon_wrapper">
-                                <p class = "stat_icon">♫</p>
-                            </div>
-                        </header>
-                        <p class = "stat_body">1847</p>
-                    </li>
-                    <li class = "stat_card" id = "liczba_koncertow">
-                        <header class = "stat_header">
-                            <p class = "stat_title">Bilety do wygenerowania</p>
-                            <div class = "icon_wrapper">
-                                <p class = "stat_icon">♫</p>
-                            </div>
-                        </header>
-                        <p class = "stat_body">12</p>
-                    </li>
-                </ul>
-                <div class = "table_area">
+                <header class = "section_header"></header>
+                <div class = "split_workspace">
+                    <div class = "table_area">
                     <header class = "table_header">
                         <div class = "title_block">
                             <p class = "main_title_table">Ostatnio dodane koncerty</p>
@@ -127,6 +100,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+                </div>
+            </div>
     </body>
 </html>
