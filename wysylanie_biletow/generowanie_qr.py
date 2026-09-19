@@ -1,6 +1,6 @@
 import qrcode
 import hashlib
-
+import secrets
 
 
 def gen_qr(id_biletu):
@@ -12,7 +12,7 @@ def gen_qr(id_biletu):
 
 
     img = qr.make_image() # fill_color, back_color dla kustomizacji
-    filepath = f"C:/Users/stane_kgevii5/Documents/GitHub/Projekt_Bileciki/wysylanie_biletow/QR-{id_biletu}.png"
+    filepath = f"C:/Users/stane_kgevii5/Documents/GitHub/Projekt_Bileciki/wysylanie_biletow/QR-{secrets.token_urlsafe(16)}.png"
     img.save(filepath)
 
     return filepath
