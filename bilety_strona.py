@@ -42,6 +42,11 @@ def bilety():
 def ustawienia():
     return render_template('ustawienia.html')
 
+@app.route("/login")
+def login():
+    if(login == login and haslo == "password1"):
+        login
+
 # submitowanie danych do serwera
 @app.route('/submit_koncerty',methods=['POST'])
 def approute_koncerty():
