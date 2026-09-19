@@ -7,4 +7,7 @@ class Config:
     DATABASE_PORT=os.environ.get('DATABSE_PORT'),
     DATABASE_NAME= os.environ.get('DATABASE_NAME'),
     DATABASE_USER=os.environ.get('DATABSE_USER'),
-    DATABASE_PASSWORD=os.environ.get('DATABASE_PASSWORD')
+    DATABASE_PASSWORD=os.environ.get('DATABASE_PASSWORD'),
+    USERNAME = os.environ.get('USERNAME'),
+    PASSWORD = os.environ.get('PASSWORD'),
+    SESSION_KEY = os.environ.get('SESSION_KEY')

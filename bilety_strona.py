@@ -1,8 +1,9 @@
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request,redirect,url_for,session,jsonify
 import psycopg
 import edycja_danych as edycja
 import odbieranie_danych as odbieranie
 from config import Config
+import hmac
 
 def postgres():
 
@@ -42,10 +43,16 @@ def bilety():
 def ustawienia():
     return render_template('ustawienia.html')
 
-@app.route("/login")
+@app.route("/login",methods = ['POST'])
 def login():
-    if(login == login and haslo == "password1"):
-        login
+    username = request.form.get('username')
+    password = request.form.get('password')
+    if(hmac.compare_digest(username,Config.USERNAME) and hmac.compare_digest(password,Config.PASSWORD)):
+        session['logged'] = True
+        return redirect(url_for(strona_glowna()))
+    else:
+        return jsonify({'result': 'ERROR', 'message': 'Wrong email or password'}),401
+        
 
 # submitowanie danych do serwera
 @app.route('/submit_koncerty',methods=['POST'])
