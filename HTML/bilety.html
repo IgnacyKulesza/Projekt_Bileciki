@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Koncertowo-Bilety</title>
+        <link rel="stylesheet" href="static/stylizowanie_glowna.css">
+        <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    </head>
+    <body>
+        <div class = "sidebar" id = "sidebar_bilety">
+            <div class = "logo-area">
+                <p class = "title">Koncertowo</p>
+            </div>
+            <ul class = "navbar">
+                <a href = /strona-glowna><li class = "menu_item" id = "glowna">
+                    <p class = "menu_item_text">Panel główny</p>
+                </li></a>
+                <a href = /koncerty><li class = "menu_item" id = "koncerty">
+                    <p class = "menu_item_text">Koncerty</p>
+                </li></a>
+                <li class = "menu_item_active" id = "kody_qr">
+                    <p class = "menu_item_text">Generuj bilet</p>
+                </li>
+                <a href = /ustawienia><li class = "menu_item" id = "ustawienia">
+                    <p class = "menu_item_text">Ustawienia</p>
+                </li></a>
+            </ul>
+        </div>
+        <div class = "main-content-area">
+            <header class = "topbar">
+                <div class = "topbar_actions">
+                    <p class = "koncertowo_tytul">Koncertowo SaaS v1.2</p>
+                </div>
+            </header>
+            <div class = "scrollable_body">
+                <header class = "section_header">
+                    <div class = "section_label">
+                        <t class = "section_label_title">Generowanie biletów</t>
+                        <t class = "section_label_subtitle">Twórz imienne bilety z kodem QR dla uczestników koncertów</t>
+                    </div>
+                </header>
+                <div class = "split_workspace">
+                    <div class = "table_area">
+                        <p class = "tickets_area_title">Bilety do Wygenerowania</p>
+                        <table class = "tabela">
+                            <tr class = "table_column_names">
+                                <th>KONCERT</th>
+                                <th>IMIĘ</th>
+                                <th>NAZWISKO</th>
+                            </tr>
+
+                            <tr class = "table_column ticket_row_active">
+                                <td>Męskie Granie 2024</td>
+                                <td>Jan</td>
+                                <td>Kowalski</td>
+                            </tr>
+
+                            <tr class = "table_column">
+                                <td>Dawid Podsiadło - Trasa</td>
+                                <td>Anna</td>
+                                <td>Nowak</td>
+                            </tr>
+
+                            <tr class = "table_column">
+                                <td>Sanah w Filharmonii</td>
+                                <td>Piotr</td>
+                                <td>Wiśniewski</td>
+                            </tr>
+
+                            <tr class = "table_column">
+                                <td>Jazz Autumn Festival</td>
+                                <td>Maria</td>
+                                <td>Zielińska</td>
+                            </tr>
+                        </table>
+                        <div class = "pagination">
+                            <p class = "counter_how_many_seen">Wyświetlono 1-4 z 18 biletów</p>
+                            <div class = "pages">
+                                <ul>
+                                    <li class = "page_button">&lt;</li>
+                                    <li class = "page_button_active">1</li>
+                                    <li class = "page_button">2</li>
+                                    <li class = "page_button">&gt;</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "preview_area">
+                        <div class = "form_header">
+                            <p class = "form_title">Podgląd biletu</p>
+                            <p class = "form_subtitle">Wizualizacja biletu imiennego i kod QR</p>
+                        </div>
+                        <div class = "qr_wrapper">
+                            <img class = "qr_image" src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=KONCERTOWO-BILET-0001" alt = "Kod QR biletu">
+                        </div>
+                        <div class = "ticket_info">
+                            <div class = "ticket_info_row">
+                                <span class = "ticket_info_label">Koncert:</span>
+                                <span class = "ticket_info_value">Męskie Granie 2024</span>
+                            </div>
+                            <div class = "ticket_info_row">
+                                <span class = "ticket_info_label">Uczestnik:</span>
+                                <span class = "ticket_info_value">Jan Kowalski</span>
+                            </div>
+                            <div class = "ticket_info_row">
+                                <span class = "ticket_info_label">Data:</span>
+                                <span class = "ticket_info_value">12.07.2024</span>
+                            </div>
+                        </div>
+                        <div class = "badge_success">
+                            <span class = "badge_check">&#10003;</span> Bilet wygenerowany
+                        </div>
+                        <form class = "send_ticket_form">
+                            <input class = "form_input" type = "email" name = "email" placeholder = "Podaj email">
+                            <button type = "submit" class = "btn_save btn_send_full">Wyślij</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

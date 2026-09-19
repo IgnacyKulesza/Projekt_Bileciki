@@ -32,75 +32,108 @@
                 </div>
             </header>
             <div class = "scrollable_body">
-                <header class = "section_header"></header>
+                <header class = "section_header">
+                    <div class = "section_label">
+                        <t class = "section_label_title">Zarządzanie koncertami</t>
+                        <t class = "section_label_subtitle">Wprowadzaj, edytuj i kontroluj wydarzenia muzyczne</t>
+                    </div>
+                </header>
                 <div class = "split_workspace">
-                    <div class = "table_area">
-                    <header class = "table_header">
-                        <div class = "title_block">
-                            <p class = "main_title_table">Ostatnio dodane koncerty</p>
-                            <p class = "sub_title_table">Lista ostatnio dodanych koncertów w systemie</p>
-                        </div>
-                    </header>
-                    <ul>
-                        <table class = "tabela">
-                            <tr class = "table_column_names">
-                               <th>NAZWA</th>
-                               <th>DATA</th>
-                               <th>LOKALIZACJA</th>
-                               <th>BILETY</th> 
-                            </tr>
+                    <div class="table_area">
+                        <ul>
+                            <table class = "tabela">
+                                <tr class = "table_column_names">
+                                <th>NAZWA</th>
+                                <th>DATA</th>
+                                <th>LOKALIZACJA</th>
+                                <th>BILETY</th> 
+                                </tr>
 
-                            <tr class="table_column">
-                                <td>Imagine Dragons</td>
-                                <td>15.09.2026</td>
-                                <td>Warszawa, PGE Narodowy</td>
-                                <td>280</td>
-                            </tr>
+                                <tr class="table_column">
+                                    <td>Imagine Dragons</td>
+                                    <td>15.09.2026</td>
+                                    <td>Warszawa, PGE Narodowy</td>
+                                    <td>280</td>
+                                </tr>
 
-                            <tr class="table_column">
-                                <td>Metallica</td>
-                                <td>22.09.2026</td>
-                                <td>Berlin, Olympiastadion</td>
-                                <td>315</td>
-                            </tr>
+                                <tr class="table_column">
+                                    <td>Metallica</td>
+                                    <td>22.09.2026</td>
+                                    <td>Berlin, Olympiastadion</td>
+                                    <td>315</td>
+                                </tr>
 
-                            <tr class="table_column">
-                                <td>Lady Gaga</td>
-                                <td>03.10.2026</td>
-                                <td>Łódź, Atlas Arena</td>
-                                <td>245</td>
-                            </tr>
+                                <tr class="table_column">
+                                    <td>Lady Gaga</td>
+                                    <td>03.10.2026</td>
+                                    <td>Łódź, Atlas Arena</td>
+                                    <td>245</td>
+                                </tr>
 
-                            <tr class="table_column">
-                                <td>Quebonafide</td>
-                                <td>10.10.2026</td>
-                                <td>Poznań, MTP</td>
-                                <td>320</td>
-                            </tr>
+                                <tr class="table_column">
+                                    <td>Quebonafide</td>
+                                    <td>10.10.2026</td>
+                                    <td>Poznań, MTP</td>
+                                    <td>320</td>
+                                </tr>
 
-                            <tr class="table_column">
-                                <td>Sanah</td>
-                                <td>18.10.2026</td>
-                                <td>Wrocław, Hala Stulecia</td>
-                                <td>290</td>
-                            </tr> 
-                        </table>
-                    </ul>
-                    <div class = "pagination">
-                        <p class = "counter_how_many_seen">Wyświetlono 1-5 z 24 koncertów</p>
-                        <div class = "pages">
-                            <ul>
-                                <li class = "page_button">&lt;</li>
-                                <li class = "page_button_active">1</li>
-                                <li class = "page_button">2</li>
-                                <li class = "page_button">3</li>
-                                <li class = "page_button">&gt;</li>
-                            </ul>
+                                <tr class="table_column">
+                                    <td>Sanah</td>
+                                    <td>18.10.2026</td>
+                                    <td>Wrocław, Hala Stulecia</td>
+                                    <td>290</td>
+                                </tr> 
+                            </table>
+                        </ul>
+                        <div class = "pagination">
+                            <p class = "counter_how_many_seen">Wyświetlono 1-5 z 24 koncertów</p>
+                            <div class = "pages">
+                                <ul>
+                                    <li class = "page_button">&lt;</li>
+                                    <li class = "page_button_active">1</li>
+                                    <li class = "page_button">2</li>
+                                    <li class = "page_button">3</li>
+                                    <li class = "page_button">&gt;</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
+                    <div class = "form_area">
+                        <div class = "form_header">
+                            <p class = "form_title">Dodaj nowy koncert</p>
+                            <p class = "form_subtitle">Uzupełnij szczegóły nowego wydarzenia</p>
+                        </div>
+                        <form class = "koncert_form">
+                            <div class = "form_group">
+                                <label class = "form_label" for = "nazwa">Nazwa</label>
+                                <input class = "form_input" type = "text" id = "nazwa" name = "nazwa" placeholder = "Kult - Akustycznie 2024">
+                            </div>
+                            <div class = "form_group">
+                                <label class = "form_label" for = "data_godzina">Data i godzina</label>
+                                <input class = "form_input" type = "text" id = "data_godzina" name = "data_godzina" placeholder = "22.11.2024, 20:00">
+                            </div>
+                            <div class = "form_group">
+                                <label class = "form_label" for = "opis">Opis</label>
+                                <textarea class = "form_textarea" id = "opis" name = "opis" placeholder = "Wyjątkowy koncert zespołu Kult w wersji akustycznej. Największe przeboje w nowych, nastrojowych aranżacjach."></textarea>
+                            </div>
+                            <div class = "form_group">
+                                <label class = "form_label" for = "zespol">Zespół</label>
+                                <input class = "form_input" type = "text" id = "zespol" name = "zespol" placeholder = "Kult">
+                            </div>
+                            <div class = "form_group">
+                                <label class = "form_label" for = "ilosc_biletow">Ilość biletów</label>
+                                <input class = "form_input" type = "number" id = "ilosc_biletow" name = "ilosc_biletow" placeholder = "1200">
+                            </div>
+                            <div class = "form_actions">
+                                <button type = "button" class = "btn_cancel">Anuluj</button>
+                                <button type = "submit" class = "btn_save">Zapisz</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+
             </div>
-                </div>
-            </div>
+
+        </div>
     </body>
 </html>
