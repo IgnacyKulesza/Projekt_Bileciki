@@ -12,7 +12,7 @@
             </div>
             <ul class = "navbar">
                 <a href = /strona-glowna><li class = "menu_item" id = "glowna">
-                    <p class = "menu_item_text">Główna</p>
+                    <p class = "menu_item_text">Panel Główny</p>
                 </li></a>
                 <li class = "menu_item_active" id = "koncerty">
                     <p class = "menu_item_text">Koncerty</p>
@@ -43,46 +43,46 @@
                         <ul>
                             <table class = "tabela">
                                 <tr class = "table_column_names">
-                                <th>NAZWA</th>
-                                <th>DATA</th>
-                                <th>LOKALIZACJA</th>
-                                <th>BILETY</th> 
-                                </tr>
+                               <th>NAZWA</th>
+                               <th>DATA</th>
+                               <th>ZESPÓŁ</th>
+                               <th>ILOŚĆ BILETÓW</th> 
+                            </tr>
 
-                                <tr class="table_column">
-                                    <td>Imagine Dragons</td>
-                                    <td>15.09.2026</td>
-                                    <td>Warszawa, PGE Narodowy</td>
-                                    <td>280</td>
-                                </tr>
+                            <tr class="table_column">
+                                <td>Imagine Dragons koncert</td>
+                                <td>15.09.2026</td>
+                                <td>Imagine Dragons</td>
+                                <td>280</td>
+                            </tr>
 
-                                <tr class="table_column">
-                                    <td>Metallica</td>
-                                    <td>22.09.2026</td>
-                                    <td>Berlin, Olympiastadion</td>
-                                    <td>315</td>
-                                </tr>
+                            <tr class="table_column">
+                                <td>Rock koncert</td>
+                                <td>22.09.2026</td>
+                                <td>Metallica</td>
+                                <td>315</td>
+                            </tr>
 
-                                <tr class="table_column">
-                                    <td>Lady Gaga</td>
-                                    <td>03.10.2026</td>
-                                    <td>Łódź, Atlas Arena</td>
-                                    <td>245</td>
-                                </tr>
+                            <tr class="table_column">
+                                <td>Lady Gaga - koncert</td>
+                                <td>03.10.2026</td>
+                                <td>Lady Gaga</td>
+                                <td>245</td>
+                            </tr>
 
-                                <tr class="table_column">
-                                    <td>Quebonafide</td>
-                                    <td>10.10.2026</td>
-                                    <td>Poznań, MTP</td>
-                                    <td>320</td>
-                                </tr>
+                            <tr class="table_column">
+                                <td>Super koncert</td>
+                                <td>10.10.2026</td>
+                                <td>Ed Sheeran</td>
+                                <td>320</td>
+                            </tr>
 
-                                <tr class="table_column">
-                                    <td>Sanah</td>
-                                    <td>18.10.2026</td>
-                                    <td>Wrocław, Hala Stulecia</td>
-                                    <td>290</td>
-                                </tr> 
+                            <tr class="table_column">
+                                <td>Polski koncercik</td>
+                                <td>18.10.2026</td>
+                                <td>Sanah</td>
+                                <td>290</td>
+                            </tr>
                             </table>
                         </ul>
                         <div class = "pagination">
@@ -103,24 +103,24 @@
                             <p class = "form_title">Dodaj nowy koncert</p>
                             <p class = "form_subtitle">Uzupełnij szczegóły nowego wydarzenia</p>
                         </div>
-                        <form class = "koncert_form">
-                            <div class = "form_group">
+                        <form action = "/submit_koncerty" method = "post" class = "koncert_form">
+                            <div class = "form_group" id = "nazwa">
                                 <label class = "form_label" for = "nazwa">Nazwa</label>
                                 <input class = "form_input" type = "text" id = "nazwa" name = "nazwa" placeholder = "Kult - Akustycznie 2024">
                             </div>
-                            <div class = "form_group">
+                            <div class = "form_group" id = "czas">
                                 <label class = "form_label" for = "data_godzina">Data i godzina</label>
-                                <input class = "form_input" type = "text" id = "data_godzina" name = "data_godzina" placeholder = "22.11.2024, 20:00">
+                                <input class = "form_input" type = "text" id = "data_godzina" name = "czas" placeholder = "22-11-2024 20:00:00">
                             </div>
-                            <div class = "form_group">
+                            <div class = "form_group" id = "opis">
                                 <label class = "form_label" for = "opis">Opis</label>
                                 <textarea class = "form_textarea" id = "opis" name = "opis" placeholder = "Wyjątkowy koncert zespołu Kult w wersji akustycznej. Największe przeboje w nowych, nastrojowych aranżacjach."></textarea>
                             </div>
-                            <div class = "form_group">
+                            <div class = "form_group" id = "zespol">
                                 <label class = "form_label" for = "zespol">Zespół</label>
                                 <input class = "form_input" type = "text" id = "zespol" name = "zespol" placeholder = "Kult">
                             </div>
-                            <div class = "form_group">
+                            <div class = "form_group" id = "ilosc_biletow">
                                 <label class = "form_label" for = "ilosc_biletow">Ilość biletów</label>
                                 <input class = "form_input" type = "number" id = "ilosc_biletow" name = "ilosc_biletow" placeholder = "1200">
                             </div>

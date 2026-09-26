@@ -10,7 +10,7 @@ def postgres():
     polaczenie=psycopg.connect(
         host=Config.DATABASE_HOST,
         port=Config.DATABASE_PORT,
-        database= Config.DATABASE_NAME,
+        dbname=Config.DATABASE_NAME,
         user=Config.DATABASE_USER,
         password=Config.DATABASE_PASSWORD
     )
@@ -20,6 +20,7 @@ def postgres():
 
 
 app = Flask(__name__, template_folder="HTML", static_folder="HTML/static")
+app.secret_key = Config.SESSION_KEY
 
 
 # zrobić dla każdej strony
@@ -45,11 +46,11 @@ def ustawienia():
 
 @app.route("/login",methods = ['POST'])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    if(hmac.compare_digest(username,Config.USERNAME) and hmac.compare_digest(password,Config.PASSWORD)):
+    username = request.form.get('username') or ''
+    password = request.form.get('password') or ''
+    if hmac.compare_digest(username, Config.USERNAME or '') and hmac.compare_digest(password, Config.PASSWORD or ''):
         session['logged'] = True
-        return redirect(url_for(strona_glowna()))
+        return redirect(url_for('strona_glowna'))
     else:
         return jsonify({'result': 'ERROR', 'message': 'Wrong email or password'}),401
         
@@ -57,19 +58,23 @@ def login():
 # submitowanie danych do serwera
 @app.route('/submit_koncerty',methods=['POST'])
 def approute_koncerty():
-    id_koncertu = request.form['id_koncertu']
-    czas = request.form['czas']
-    nazwa = request.form['nazwa']
-    zespol = request.form['zespol']
-    opis = request.form['opis']
+    try:
+        czas = request.form['czas']
+        nazwa = request.form['nazwa']
+        zespol = request.form['zespol']
+        opis = request.form['opis']
+        ilosc_biletow = request.form['ilosc_biletow']
 
-    polaczenie,kursor = postgres()
-    edycja.insert(kursor,"Bilety",id_koncertu,czas,nazwa,zespol,opis)
-    polaczenie.commit()
-    kursor.close()
-    polaczenie.close()
+        polaczenie,kursor = postgres()
+        id_koncertu = odbieranie.getIdConcert(kursor)
+        edycja.insert(kursor,'Koncerty',id_koncertu,czas,nazwa,zespol,opis,ilosc_biletow)
+        polaczenie.commit()
+        kursor.close()
+        polaczenie.close()
 
-    return redirect(url_for('koncerty'))
+        return redirect(url_for('koncerty'))
+    except:
+        return "niepoprawne dane"
 
 
 # submitowanie danych do serwera
