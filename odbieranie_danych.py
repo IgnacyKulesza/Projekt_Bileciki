@@ -20,6 +20,10 @@ def getData(kursor,tabela,kolumna):
 
     return dane
 
+def getIdConcert(kursor):
+    kursor.execute('SELECT COALESCE(MAX(id_koncertu), 0) + 1 FROM Koncerty')
+    return kursor.fetchone()[0]
+
 
 
 # polaczenie,kursor = postgres()

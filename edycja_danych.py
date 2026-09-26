@@ -2,17 +2,21 @@ import psycopg
 from config import Config
 
 
-def insert(kursor,tabela,argument1,argument2,argument3,argument4,argument5):
-    if tabela in ('Koncery', 'Bilety'):
-        kursor.execute(f'INSERT INTO {tabela}'
-                        'VALUES(DEFAULT,%s,%s,%s,%s,%s))',(argument1,argument2,argument3,argument4,argument5))
+def insert(kursor,tabela,argument1,argument2,argument3,argument4,argument5,argument6=0):
+    if tabela == 'Bilety':
+        kursor.execute(f'INSERT INTO Bilety VALUES '+'(%s, %s, %s, %s, %s)',
+                       (argument1,argument2,argument3,argument4,argument5))
+        print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, {argument5}")
+    elif tabela == 'Koncerty':
+        kursor.execute(f'INSERT INTO Koncerty(czas,nazwa,zespol,opis,ilosc_biletow) VALUES '+'(%s, %s, %s, %s, %s)',
+                       (argument1,argument2,argument3,argument4,argument5))
         print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, {argument5}")
 
 def delete(kursor,tabela,usuwane):
-    if tabela=="koncerty":
-        kursor.execute(f'DELETE FROM {tabela} WHERE id_koncertu = %s',usuwane)
-    elif tabela=="bilety":
-        kursor.execute(f'DELETE FROM {tabela} WHERE id_biletu = %s',usuwane)
+    if tabela=="Koncerty":
+        kursor.execute(f'DELETE FROM {tabela} WHERE '+'id_koncertu = %s',usuwane)
+    elif tabela=="Bilety":
+        kursor.execute(f'DELETE FROM {tabela} WHERE'+'id_biletu = %s',usuwane)
 
     
 

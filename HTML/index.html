@@ -15,22 +15,21 @@
                 <p class = "sub-title">System zarządzania <br> biletami i koncertami</p>
             </div>
         </header>
-        <form action="strona-glowna">
+        <form action="/login" method = "post">
             <div class = "login-form">
                 <div class = "field" id = "email">
                     <label for = "email-input" class = "field-text">Email</label>
-                    <input class = "input" id = "email-input" type = "email" placeholder="jan.kowalski@gmail.com" required>
+                    <input class = "input" id = "email-input" type = "email" placeholder="jan.kowalski@gmail.com" required name = "username">
                 </div>
                 <div class = "field" id = "haslo">
                     <label for = "email-input" class = "field-text">Hasło</label>
-                    <input class = "input" id = "email-input" type = "password" placeholder="Hasło" required>
+                    <input class = "input" id = "email-input" type = "password" placeholder="Hasło" required name = "password">
                 </div>
                 <footer class = "form-footer-options">
                     <div class = "checkbox">
-                        <input type="checkbox" id = "zapamietaj-mnie">
-                        <label for = "zapamietaj-mnie">Zapamiętaj mnie</label>
+                        <input type="checkbox" id = "pokaz-haslo" name="check_pokaz_haslo">
+                        <label for = "pokaz-haslo">Pokaż hasło</label>
                     </div>
-                    <a class = "nie-pamietasz-hasla" href = "#">Nie pamiętasz hasła?</a>
                 </footer>
             </div>
             <button type="submit" class = "zaloguj-sie"><p>Zaloguj się</p></button>
