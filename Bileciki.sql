@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS Koncerty;
 
 CREATE TABLE Koncerty
 (
-    id_koncertu INTEGER PRIMARY KEY,
+    id_koncertu INTEGER SERIAL PRIMARY KEY,
     czas TIMESTAMP,
     nazwa VARCHAR(31),
     zespol VARCHAR(127),

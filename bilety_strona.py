@@ -65,8 +65,7 @@ def approute_koncerty():
         ilosc_biletow = request.form['ilosc_biletow']
 
         polaczenie,kursor = postgres()
-        id_koncertu = odbieranie.getIdConcert(kursor)
-        edycja.insert(kursor,'Koncerty',id_koncertu,czas,nazwa,zespol,opis,ilosc_biletow)
+        edycja.insert(kursor,'Koncerty',czas,nazwa,zespol,opis,ilosc_biletow)
         polaczenie.commit()
         kursor.close()
         polaczenie.close()

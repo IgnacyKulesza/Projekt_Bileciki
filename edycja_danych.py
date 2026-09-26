@@ -8,9 +8,9 @@ def insert(kursor,tabela,argument1,argument2,argument3,argument4,argument5,argum
                        (argument1,argument2,argument3,argument4,argument5))
         print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, {argument5}")
     elif tabela == 'Koncerty':
-        kursor.execute(f'INSERT INTO {tabela} VALUES '+'(%s, %s, %s, %s, %s, %s)',
-                       (argument1,argument2,argument3,argument4,argument5,argument6))
-        print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, {argument5}, {argument6}")
+        kursor.execute(f'INSERT INTO Koncerty(czas,nazwa,zespol,opis,ilosc_biletow) VALUES '+'(%s, %s, %s, %s, %s)',
+                       (argument1,argument2,argument3,argument4,argument5))
+        print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, {argument5}")
 
 def delete(kursor,tabela,usuwane):
     if tabela=="Koncerty":
