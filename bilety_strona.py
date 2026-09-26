@@ -53,7 +53,6 @@ def login():
         return redirect(url_for('strona_glowna'))
     else:
         return jsonify({'result': 'ERROR', 'message': 'Wrong email or password'}),401
-        
 
 # submitowanie danych do serwera
 @app.route('/submit_koncerty',methods=['POST'])
