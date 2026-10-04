@@ -202,7 +202,6 @@ def approute_koncerty():
             polaczenie.commit()
         except Exception as error:
             polaczenie.rollback()
-            print(error)
             raise
         finally:
             kursor.close()
