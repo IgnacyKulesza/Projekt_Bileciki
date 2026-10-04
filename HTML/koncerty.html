@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="pl">
     <head>
-        <title>Koncertowo-Główna</title>
-        <link rel="stylesheet" href="static/stylizowanie_glowna.css">
+        <title>Koncertowo - Koncerty</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylizowanie_glowna.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     </head>
     <body>
+        {% if message %}
+            <div class="message" role="alert">
+                <span>{{ message }}</span>
+                <button class="message-close" type="button" aria-label="Zamknij komunikat" onclick="this.parentElement.remove()">&times;</button>
+            </div>
+        {% endif %}
         <div class = "sidebar" id = "sidebar_strona_glowna">
             <div class = "logo-area">
                 <p class = "title">Koncertowo</p>
@@ -24,6 +30,7 @@
                     <p class = "menu_item_text">Ustawienia</p>
                 </li></a>
             </ul>
+            <a class="logout-button" href="{{ url_for('logout') }}">Wyloguj się</a>
         </div>
         <div class = "main-content-area">
             <header class = "topbar">
@@ -40,60 +47,50 @@
                 </header>
                 <div class = "split_workspace">
                     <div class="table_area">
-                        <ul>
-                            <table class = "tabela">
-                                <tr class = "table_column_names">
+                        <table class = "tabela">
+                            <tr class = "table_column_names">
                                <th>NAZWA</th>
                                <th>DATA</th>
                                <th>ZESPÓŁ</th>
                                <th>ILOŚĆ BILETÓW</th> 
                             </tr>
 
+                            {% for koncert in koncerty %}
                             <tr class="table_column">
-                                <td>Imagine Dragons koncert</td>
-                                <td>15.09.2026</td>
-                                <td>Imagine Dragons</td>
-                                <td>280</td>
+                                <td>{{ koncert[0] }}</td>
+                                <td>{{ koncert[1].strftime('%d.%m.%Y') }}</td>
+                                <td>{{ koncert[2] }}</td>
+                                <td>{{ koncert[3] }}</td>
                             </tr>
-
+                            {% else %}
                             <tr class="table_column">
-                                <td>Rock koncert</td>
-                                <td>22.09.2026</td>
-                                <td>Metallica</td>
-                                <td>315</td>
+                                <td colspan="4">Brak koncertów</td>
                             </tr>
-
-                            <tr class="table_column">
-                                <td>Lady Gaga - koncert</td>
-                                <td>03.10.2026</td>
-                                <td>Lady Gaga</td>
-                                <td>245</td>
-                            </tr>
-
-                            <tr class="table_column">
-                                <td>Super koncert</td>
-                                <td>10.10.2026</td>
-                                <td>Ed Sheeran</td>
-                                <td>320</td>
-                            </tr>
-
-                            <tr class="table_column">
-                                <td>Polski koncercik</td>
-                                <td>18.10.2026</td>
-                                <td>Sanah</td>
-                                <td>290</td>
-                            </tr>
-                            </table>
-                        </ul>
-                        <div class = "pagination">
-                            <p class = "counter_how_many_seen">Wyświetlono 1-5 z 24 koncertów</p>
-                            <div class = "pages">
+                            {% endfor %}
+                        </table>
+                        <div class="pagination">
+                            <p class="counter_how_many_seen">Wyświetlono {{ pierwszy_wynik }}-{{ ostatni_wynik }} z {{ liczba_koncertow }} koncertów</p>
+                            <div class="pages">
                                 <ul>
-                                    <li class = "page_button">&lt;</li>
-                                    <li class = "page_button_active">1</li>
-                                    <li class = "page_button">2</li>
-                                    <li class = "page_button">3</li>
-                                    <li class = "page_button">&gt;</li>
+                                    {% if strona > 1 %}
+                                    <li><a class="page_button" href="{{ url_for('koncerty', strona=strona - 1) }}" aria-label="Poprzednia strona">&lt;</a></li>
+                                    {% else %}
+                                    <li><span class="page_button_disabled" aria-disabled="true">&lt;</span></li>
+                                    {% endif %}
+                                    {% for numer_strony in range(1, liczba_stron + 1) %}
+                                    <li>
+                                        {% if numer_strony == strona %}
+                                        <span class="page_button_active" aria-current="page">{{ numer_strony }}</span>
+                                        {% else %}
+                                        <a class="page_button" href="{{ url_for('koncerty', strona=numer_strony) }}">{{ numer_strony }}</a>
+                                        {% endif %}
+                                    </li>
+                                    {% endfor %}
+                                    {% if strona < liczba_stron %}
+                                    <li><a class="page_button" href="{{ url_for('koncerty', strona=strona + 1) }}" aria-label="Następna strona">&gt;</a></li>
+                                    {% else %}
+                                    <li><span class="page_button_disabled" aria-disabled="true">&gt;</span></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -104,25 +101,25 @@
                             <p class = "form_subtitle">Uzupełnij szczegóły nowego wydarzenia</p>
                         </div>
                         <form action = "/submit_koncerty" method = "post" class = "koncert_form">
-                            <div class = "form_group" id = "nazwa">
+                            <div class="form_group">
                                 <label class = "form_label" for = "nazwa">Nazwa</label>
-                                <input class = "form_input" type = "text" id = "nazwa" name = "nazwa" placeholder = "Kult - Akustycznie 2024">
+                                <input class="form_input" type="text" id="nazwa" name="nazwa" placeholder="Kult - Akustycznie 2024" maxlength="31" required>
                             </div>
-                            <div class = "form_group" id = "czas">
+                            <div class="form_group">
                                 <label class = "form_label" for = "data_godzina">Data i godzina</label>
-                                <input class = "form_input" type = "text" id = "data_godzina" name = "czas" placeholder = "22-11-2024 20:00:00">
+                                <input class="form_input" type="datetime-local" id="data_godzina" name="czas" required>
                             </div>
-                            <div class = "form_group" id = "opis">
+                            <div class="form_group">
                                 <label class = "form_label" for = "opis">Opis</label>
-                                <textarea class = "form_textarea" id = "opis" name = "opis" placeholder = "Wyjątkowy koncert zespołu Kult w wersji akustycznej. Największe przeboje w nowych, nastrojowych aranżacjach."></textarea>
+                                <textarea class="form_textarea" id="opis" name="opis" placeholder="Wyjątkowy koncert zespołu Kult w wersji akustycznej. Największe przeboje w nowych, nastrojowych aranżacjach." maxlength="513" required></textarea>
                             </div>
-                            <div class = "form_group" id = "zespol">
+                            <div class="form_group">
                                 <label class = "form_label" for = "zespol">Zespół</label>
-                                <input class = "form_input" type = "text" id = "zespol" name = "zespol" placeholder = "Kult">
+                                <input class="form_input" type="text" id="zespol" name="zespol" placeholder="Kult" maxlength="127" required>
                             </div>
-                            <div class = "form_group" id = "ilosc_biletow">
+                            <div class="form_group">
                                 <label class = "form_label" for = "ilosc_biletow">Ilość biletów</label>
-                                <input class = "form_input" type = "number" id = "ilosc_biletow" name = "ilosc_biletow" placeholder = "1200">
+                                <input class="form_input" type="number" id="ilosc_biletow" name="ilosc_biletow" placeholder="1200" min="1" max="2147483647" required>
                             </div>
                             <div class = "form_actions">
                                 <button type = "button" class = "btn_cancel">Anuluj</button>

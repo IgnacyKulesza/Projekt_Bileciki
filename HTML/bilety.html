@@ -2,7 +2,7 @@
 <html lang="pl">
     <head>
         <title>Koncertowo-Bilety</title>
-        <link rel="stylesheet" href="static/stylizowanie_glowna.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylizowanie_glowna.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     </head>
     <body>
@@ -18,12 +18,13 @@
                     <p class = "menu_item_text">Koncerty</p>
                 </li></a>
                 <li class = "menu_item_active" id = "kody_qr">
-                    <p class = "menu_item_text">Generuj bilet</p>
+                    <p class = "menu_item_text">Generuj Bilet</p>
                 </li>
                 <a href = /ustawienia><li class = "menu_item" id = "ustawienia">
                     <p class = "menu_item_text">Ustawienia</p>
                 </li></a>
             </ul>
+            <a class="logout-button" href="{{ url_for('logout') }}">Wyloguj się</a>
         </div>
         <div class = "main-content-area">
             <header class = "topbar">
@@ -40,7 +41,11 @@
                 </header>
                 <div class = "split_workspace">
                     <div class = "table_area">
-                        <p class = "tickets_area_title">Bilety do Wygenerowania</p>
+                        <p class="tickets_area_title">Bilety {{ 'wygenerowane' if status == 'generated' else 'niewygenerowane' }}</p>
+                        <div class="ticket_status_switch" role="group" aria-label="Filtruj bilety">
+                            <a class="ticket_status_option{% if status == 'not_generated' %} ticket_status_option_active{% endif %}" href="{{ url_for('bilety', status='not_generated', strona=1) }}"{% if status == 'not_generated' %} aria-current="true"{% endif %}>Niewygenerowane</a>
+                            <a class="ticket_status_option{% if status == 'generated' %} ticket_status_option_active{% endif %}" href="{{ url_for('bilety', status='generated', strona=1) }}"{% if status == 'generated' %} aria-current="true"{% endif %}>Wygenerowane</a>
+                        </div>
                         <table class = "tabela">
                             <tr class = "table_column_names">
                                 <th>KONCERT</th>
@@ -48,38 +53,41 @@
                                 <th>NAZWISKO</th>
                             </tr>
 
-                            <tr class = "table_column ticket_row_active">
-                                <td>Męskie Granie 2024</td>
-                                <td>Jan</td>
-                                <td>Kowalski</td>
+                            {% for bilet in lista_biletow %}
+                            <tr class="table_column ticket_selectable{% if wybrany_bilet and bilet[4] == wybrany_bilet[4] %} ticket_row_active{% endif %}" data-ticket-url="{{ url_for('bilety', status=status, strona=strona, bilet_id=bilet[4]) }}" tabindex="0" role="link" aria-label="Podgląd biletu: {{ bilet[0] }}, {{ bilet[1] }} {{ bilet[2] }}">
+                                <td>{{ bilet[0] }}</td>
+                                <td>{{ bilet[1] }}</td>
+                                <td>{{ bilet[2] }}</td>
                             </tr>
-
-                            <tr class = "table_column">
-                                <td>Dawid Podsiadło - Trasa</td>
-                                <td>Anna</td>
-                                <td>Nowak</td>
+                            {% else %}
+                            <tr class="table_column">
+                                <td colspan="3">Brak biletów</td>
                             </tr>
-
-                            <tr class = "table_column">
-                                <td>Sanah w Filharmonii</td>
-                                <td>Piotr</td>
-                                <td>Wiśniewski</td>
-                            </tr>
-
-                            <tr class = "table_column">
-                                <td>Jazz Autumn Festival</td>
-                                <td>Maria</td>
-                                <td>Zielińska</td>
-                            </tr>
+                            {% endfor %}
                         </table>
-                        <div class = "pagination">
-                            <p class = "counter_how_many_seen">Wyświetlono 1-4 z 18 biletów</p>
-                            <div class = "pages">
+                        <div class="pagination">
+                            <p class="counter_how_many_seen">Wyświetlono {{ pierwszy_wynik }}-{{ ostatni_wynik }} z {{ liczba_biletow }} biletów</p>
+                            <div class="pages">
                                 <ul>
-                                    <li class = "page_button">&lt;</li>
-                                    <li class = "page_button_active">1</li>
-                                    <li class = "page_button">2</li>
-                                    <li class = "page_button">&gt;</li>
+                                    {% if strona > 1 %}
+                                    <li><a class="page_button" href="{{ url_for('bilety', status=status, strona=strona - 1) }}" aria-label="Poprzednia strona">&lt;</a></li>
+                                    {% else %}
+                                    <li><span class="page_button_disabled" aria-disabled="true">&lt;</span></li>
+                                    {% endif %}
+                                    {% for numer_strony in range(1, liczba_stron + 1) %}
+                                    <li>
+                                        {% if numer_strony == strona %}
+                                        <span class="page_button_active" aria-current="page">{{ numer_strony }}</span>
+                                        {% else %}
+                                        <a class="page_button" href="{{ url_for('bilety', status=status, strona=numer_strony) }}">{{ numer_strony }}</a>
+                                        {% endif %}
+                                    </li>
+                                    {% endfor %}
+                                    {% if strona < liczba_stron %}
+                                    <li><a class="page_button" href="{{ url_for('bilety', status=status, strona=strona + 1) }}" aria-label="Następna strona">&gt;</a></li>
+                                    {% else %}
+                                    <li><span class="page_button_disabled" aria-disabled="true">&gt;</span></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -89,26 +97,36 @@
                             <p class = "form_title">Podgląd biletu</p>
                             <p class = "form_subtitle">Wizualizacja biletu imiennego i kod QR</p>
                         </div>
-                        <div class = "qr_wrapper">
-                            <img class = "qr_image" src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=KONCERTOWO-BILET-0001" alt = "Kod QR biletu">
+                        {% if wybrany_bilet %}
+                        <div class="qr_wrapper">
+                            <img class="qr_image" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&amp;data={{ wybrany_bilet[4] }}" alt="Kod QR biletu">
                         </div>
-                        <div class = "ticket_info">
+                        <div class="ticket_info">
                             <div class = "ticket_info_row">
                                 <span class = "ticket_info_label">Koncert:</span>
-                                <span class = "ticket_info_value">Męskie Granie 2024</span>
+                                <span class = "ticket_info_value">{{ wybrany_bilet[0] }}</span>
                             </div>
                             <div class = "ticket_info_row">
                                 <span class = "ticket_info_label">Uczestnik:</span>
-                                <span class = "ticket_info_value">Jan Kowalski</span>
+                                <span class = "ticket_info_value">{{ wybrany_bilet[1] }} {{ wybrany_bilet[2] }}</span>
                             </div>
                             <div class = "ticket_info_row">
                                 <span class = "ticket_info_label">Data:</span>
-                                <span class = "ticket_info_value">12.07.2024</span>
+                                <span class = "ticket_info_value">{{ wybrany_bilet[3].strftime('%d.%m.%Y') }}</span>
                             </div>
                         </div>
-                        <div class = "badge_success">
-                            <span class = "badge_check">&#10003;</span> Bilet wygenerowany
+                        {% if wybrany_bilet[5] %}
+                        <div class="badge_success">
+                            <span class="badge_check">&#10003;</span> Bilet wygenerowany
                         </div>
+                        {% else %}
+                        <div class="badge_error">
+                            <span class="badge_check">&#10007;</span> Bilet niewygenerowany
+                        </div>
+                        {% endif %}
+                        {% else %}
+                        <p>Brak biletów do wyświetlenia</p>
+                        {% endif %}
                         <form class = "send_ticket_form">
                             <input class = "form_input" type = "email" name = "email" placeholder = "Podaj email">
                             <button type = "submit" class = "btn_save btn_send_full">Wyślij</button>
@@ -117,5 +135,17 @@
                 </div>
             </div>
         </div>
+        <script>
+            document.querySelectorAll('.ticket_selectable').forEach((ticketRow) => {
+                const openTicket = () => window.location.href = ticketRow.dataset.ticketUrl;
+                ticketRow.addEventListener('click', openTicket);
+                ticketRow.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        openTicket();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

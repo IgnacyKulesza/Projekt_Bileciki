@@ -8,6 +8,12 @@
 
 <body>
     <div class = "login-card">
+        {% if message %}
+            <div class="message" role="alert">
+                <span>{{ message }}</span>
+                <button class="message-close" type="button" aria-label="Zamknij komunikat" onclick="this.parentElement.remove()">&times;</button>
+            </div>
+        {% endif %}
         <header class = "login-header">
             <div class = "logo"> ♫</div>
             <div class = "text-group">

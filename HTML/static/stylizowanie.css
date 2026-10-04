@@ -7,6 +7,33 @@ body {
     font-family: 'Inter';
 }
 
+.message{
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: calc(100vw - 48px);
+    padding: 8px 10px 8px 12px;
+    border: 1px solid #FECACA;
+    border-radius: 6px;
+    background-color: #FEF2F2;
+    color: #991B1B;
+    font-size: 13px;
+    z-index: 1;
+}
+
+.message-close{
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+
 .login-card{
     display: flex;
     flex-direction: column;
