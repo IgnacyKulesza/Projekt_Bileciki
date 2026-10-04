@@ -12,12 +12,32 @@ body {
 .sidebar{
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
     background-color: #1A2341;
     padding-top: 0px;
     padding-left: 10px;
     padding-right: 10px;
     width: 220px;
     flex-shrink: 0;
+}
+
+.logout-button{
+    display: block;
+    margin-top: auto;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    color: #B2B2CC;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.logout-button:hover{
+    background-color: #181f38;
+    color: #FFFFFF;
 }
 
 .logo-area{
@@ -308,7 +328,8 @@ body {
     }
 
     .page_button,
-    .page_button_active {
+    .page_button_active,
+    .page_button_disabled {
         min-width: 32px;
         height: 32px;
         display: flex;
@@ -321,6 +342,8 @@ body {
         border: 1px solid #E2E8F0;
         color: #64748B;
         background-color: #FFFFFF;
+        box-sizing: border-box;
+        text-decoration: none;
     }
 
     .page_button:hover {
@@ -331,6 +354,11 @@ body {
         background-color: #2563EB;
         border-color: #2563EB;
         color: #FFFFFF;
+    }
+
+    .page_button_disabled {
+        color: #CBD5E1;
+        cursor: default;
     }
 
     /* --- Dodaj nowy koncert (side form panel) --- */
@@ -453,7 +481,42 @@ body {
         margin: 0px 0px 16px 0px;
     }
 
+    .ticket_status_switch {
+        display: inline-flex;
+        gap: 4px;
+        padding: 4px;
+        margin-bottom: 16px;
+        border-radius: 8px;
+        background-color: #F1F5F9;
+    }
+
+    .ticket_status_option {
+        display: flex;
+        align-items: center;
+        min-height: 32px;
+        padding: 0px 12px;
+        border-radius: 6px;
+        color: #475569;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .ticket_status_option_active {
+        background-color: #2563EB;
+        color: #FFFFFF;
+    }
+
+    .ticket_selectable {
+        cursor: pointer;
+    }
+
+    .ticket_selectable:hover td {
+        background-color: #F8FAFC;
+    }
+
     .ticket_row_active td {
+        background-color: #EFF6FF;
         color: #0F172A;
     }
 
@@ -519,6 +582,44 @@ body {
         padding: 10px 0px;
         text-align: center;
     }
+
+    .badge_error {
+        background-color: #FEE2E2;
+        color: #B91C1C;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 10px 0px;
+        text-align: center;
+    }
+    
+.message{
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: calc(100vw - 48px);
+    padding: 8px 10px 8px 12px;
+    border: 1px solid #FECACA;
+    border-radius: 6px;
+    background-color: #FEF2F2;
+    color: #991B1B;
+    font-size: 13px;
+    z-index: 1;
+}
+
+.message-close{
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+
 
     .badge_check {
         font-weight: 700;

@@ -24,6 +24,7 @@
                     <p class = "menu_item_text">Ustawienia</p>
                 </li></a>
             </ul>
+            <a class="logout-button" href="{{ url_for('logout') }}">Wyloguj się</a>
         </div>
         <div class = "main-content-area">
             <header class = "topbar">
@@ -77,51 +78,43 @@
                                <th>ILOŚĆ BILETÓW</th> 
                             </tr>
 
+                            {% for koncert in koncerty %}
                             <tr class="table_column">
-                                <td>Imagine Dragons koncert</td>
-                                <td>15.09.2026</td>
-                                <td>Imagine Dragons</td>
-                                <td>280</td>
+                                <td>{{ koncert[0] }}</td>
+                                <td>{{ koncert[1].strftime('%d.%m.%Y') }}</td>
+                                <td>{{ koncert[2] }}</td>
+                                <td>{{ koncert[3] }}</td>
                             </tr>
-
+                            {% else %}
                             <tr class="table_column">
-                                <td>Rock koncert</td>
-                                <td>22.09.2026</td>
-                                <td>Metallica</td>
-                                <td>315</td>
+                                <td colspan="4">Brak koncertów</td>
                             </tr>
-
-                            <tr class="table_column">
-                                <td>Lady Gaga - koncert</td>
-                                <td>03.10.2026</td>
-                                <td>Lady Gaga</td>
-                                <td>245</td>
-                            </tr>
-
-                            <tr class="table_column">
-                                <td>Super koncert</td>
-                                <td>10.10.2026</td>
-                                <td>Ed Sheeran</td>
-                                <td>320</td>
-                            </tr>
-
-                            <tr class="table_column">
-                                <td>Polski koncercik</td>
-                                <td>18.10.2026</td>
-                                <td>Sanah</td>
-                                <td>290</td>
-                            </tr> 
+                            {% endfor %}
                         </table>
                     </ul>
                     <div class = "pagination">
-                        <p class = "counter_how_many_seen">Wyświetlono 1-5 z 24 koncertów</p>
+                        <p class="counter_how_many_seen">Wyświetlono {{ pierwszy_wynik }}-{{ ostatni_wynik }} z {{ liczba_koncertow }} koncertów</p>
                         <div class = "pages">
                             <ul>
-                                <li class = "page_button">&lt;</li>
-                                <li class = "page_button_active">1</li>
-                                <li class = "page_button">2</li>
-                                <li class = "page_button">3</li>
-                                <li class = "page_button">&gt;</li>
+                                {% if strona > 1 %}
+                                <li><a class="page_button" href="{{ url_for('strona_glowna', strona=strona - 1) }}" aria-label="Poprzednia strona">&lt;</a></li>
+                                {% else %}
+                                <li><span class="page_button_disabled" aria-disabled="true">&lt;</span></li>
+                                {% endif %}
+                                {% for numer_strony in range(1, liczba_stron + 1) %}
+                                <li>
+                                    {% if numer_strony == strona %}
+                                    <span class="page_button_active" aria-current="page">{{ numer_strony }}</span>
+                                    {% else %}
+                                    <a class="page_button" href="{{ url_for('strona_glowna', strona=numer_strony) }}">{{ numer_strony }}</a>
+                                    {% endif %}
+                                </li>
+                                {% endfor %}
+                                {% if strona < liczba_stron %}
+                                <li><a class="page_button" href="{{ url_for('strona_glowna', strona=strona + 1) }}" aria-label="Następna strona">&gt;</a></li>
+                                {% else %}
+                                <li><span class="page_button_disabled" aria-disabled="true">&gt;</span></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>

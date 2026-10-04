@@ -1,9 +1,6 @@
-DROP TABLE IF EXISTS Bilety;
-DROP TABLE IF EXISTS Koncerty;
-
-CREATE TABLE Koncerty
+CREATE TABLE IF NOT EXISTS Koncerty
 (
-    id_koncertu INTEGER SERIAL PRIMARY KEY,
+    id_koncertu SERIAL PRIMARY KEY,
     czas TIMESTAMP,
     nazwa VARCHAR(31),
     zespol VARCHAR(127),
@@ -11,7 +8,12 @@ CREATE TABLE Koncerty
 	ilosc_biletow INTEGER
 );
 
-CREATE TABLE Bilety
+CREATE SEQUENCE IF NOT EXISTS koncerty_id_koncertu_seq;
+ALTER SEQUENCE koncerty_id_koncertu_seq OWNED BY Koncerty.id_koncertu;
+ALTER TABLE Koncerty ALTER COLUMN id_koncertu
+    SET DEFAULT nextval('koncerty_id_koncertu_seq'::regclass);
+
+CREATE TABLE IF NOT EXISTS Bilety
 (
     id_biletu VARCHAR PRIMARY KEY,
     czy_zeskanowane BOOL,
@@ -21,28 +23,29 @@ CREATE TABLE Bilety
 );
 
 
-INSERT INTO Koncerty (id_koncertu, czas, nazwa, zespol, opis)
+INSERT INTO Koncerty (id_koncertu, czas, nazwa, zespol, opis, ilosc_biletow)
 VALUES
 (1, '2026-10-10 19:00:00', 'Jesienny Koncert', 'Daria Zawiałow',
- 'Koncert promujący najnowszą trasę koncertową artystki.'),
+ 'Koncert promujący najnowszą trasę koncertową artystki.', 500),
 
 (2, '2026-10-18 20:00:00', 'Nocne Granie', 'Kwiat Jabłoni',
- 'Wieczorny koncert zespołu w ramach jesiennej trasy.'),
+ 'Wieczorny koncert zespołu w ramach jesiennej trasy.', 500),
 
 (3, '2026-11-07 19:30:00', 'Live 2026', 'Mrozu',
- 'Koncert z największymi przebojami oraz utworami z najnowszej płyty.'),
+ 'Koncert z największymi przebojami oraz utworami z najnowszej płyty.', 500),
 
 (4, '2026-11-21 18:00:00', 'Muzyka na Żywo', 'Vito Bambino',
- 'Specjalny koncert klubowy z muzyką na żywo.'),
+ 'Specjalny koncert klubowy z muzyką na żywo.', 500),
 
 (5, '2026-12-05 20:00:00', 'Winter Tour', 'Sanah',
- 'Zimowa trasa koncertowa z największymi hitami artystki.'),
+ 'Zimowa trasa koncertowa z największymi hitami artystki.', 500),
 
 (6, '2026-12-19 19:00:00', 'Rock Night', 'Dżem',
- 'Wieczór pełen klasycznych rockowych utworów zespołu.'),
+ 'Wieczór pełen klasycznych rockowych utworów zespołu.', 500),
 
 (7, '2027-01-16 20:00:00', 'Nowy Rok Live', 'Lady Pank',
- 'Koncert noworoczny z największymi przebojami zespołu.');
+ 'Koncert noworoczny z największymi przebojami zespołu.', 500)
+ON CONFLICT (id_koncertu) DO NOTHING;
 
 
 INSERT INTO Bilety (id_biletu, czy_zeskanowane, imie, nazwisko, id_koncertu)
@@ -70,4 +73,11 @@ VALUES
 ('BIL016', FALSE, 'Natalia', 'Pawłowska', 6),
 
 ('BIL017', FALSE, 'Szymon',  'Michalski', 7),
-('BIL018', TRUE,  'Maja',    'Król',      7);
+('BIL018', TRUE,  'Maja',    'Król',      7)
+ON CONFLICT (id_biletu) DO NOTHING;
+
+SELECT setval(
+    pg_get_serial_sequence('Koncerty', 'id_koncertu'),
+    COALESCE((SELECT MAX(id_koncertu) FROM Koncerty), 0) + 1,
+    false
+);
