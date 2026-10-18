@@ -27,7 +27,7 @@ app.secret_key = Config.SESSION_KEY
 # zrobić dla każdej strony
 @app.route('/')
 def index():
-    return render_template('index.html', message='')
+    return render_template('index.html', message=''), 200
 
 @app.route('/strona-glowna')
 def strona_glowna():
@@ -60,9 +60,9 @@ def strona_glowna():
             pierwszy_wynik=pierwszy_wynik,
             ostatni_wynik=ostatni_wynik,
             liczba_koncertow=liczba_koncertow,
-        )
+        ), 200
     else:
-        return render_template('index.html', message = 'Nie zalogowany')
+        return render_template('index.html', message = 'Nie zalogowany'), 400
 
 @app.route('/koncerty')
 def koncerty():
@@ -96,9 +96,9 @@ def koncerty():
             ostatni_wynik=ostatni_wynik,
             liczba_koncertow=liczba_koncertow,
             message=request.args.get('message', ''),
-        )
+        ),200
     else:
-        return render_template('index.html', message = 'Nie zalogowany')
+        return render_template('index.html', message = 'Nie zalogowany'), 400
 
 @app.route('/bilety')
 def bilety():
@@ -142,17 +142,17 @@ def bilety():
             pierwszy_wynik=pierwszy_wynik,
             ostatni_wynik=ostatni_wynik,
             liczba_biletow=liczba_biletow,
-        )
+        ),200
     else:
-        return render_template('index.html', message = 'Nie zalogowany')
+        return render_template('index.html', message = 'Nie zalogowany'),400
     
 
 @app.route('/ustawienia')
 def ustawienia():
     if(session.get('logged')):
-        return render_template('ustawienia.html')
+        return render_template('ustawienia.html'), 200
     else:
-        return render_template('index.html', message = 'Nie zalogowany')
+        return render_template('index.html', message = 'Nie zalogowany'),400
     
 
 @app.route("/login",methods = ['POST'])
@@ -162,14 +162,14 @@ def login():
     password = request.form.get('password') or ''
     if hmac.compare_digest(username, Config.USERNAME or '') and hmac.compare_digest(password, Config.PASSWORD or ''):
         session['logged'] = True
-        return redirect(url_for('strona_glowna'))
+        return redirect(url_for('strona_glowna')), 200
     else:
         return render_template('index.html', message='Nieprawidłowy email lub hasło'), 401
 
 @app.route("/logout")
 def logout():
     session.clear()
-    return render_template('index.html', message = '')
+    return render_template('index.html', message = ''),200
 # submitowanie danych do serwera
 @app.route('/submit_koncerty',methods=['POST'])
 def approute_koncerty():
@@ -207,12 +207,12 @@ def approute_koncerty():
             kursor.close()
             polaczenie.close()
 
-        return redirect(url_for('koncerty'))
+        return redirect(url_for('koncerty')), 201
     except ValueError as error:
-        return redirect(url_for('koncerty', message=str(error)))
+        return redirect(url_for('koncerty', message=str(error))),400
     except Exception:
         app.logger.exception('Nie udało się zapisać koncertu')
-        return redirect(url_for('koncerty', message='Nie udało się zapisać koncertu. Sprawdź dane i spróbuj ponownie.'))
+        return redirect(url_for('koncerty', message='Nie udało się zapisać koncertu. Sprawdź dane i spróbuj ponownie.')), 400
 
 
 # submitowanie danych do serwera
@@ -230,7 +230,7 @@ def approute_bilety():
     kursor.close()
     polaczenie.close()
 
-    return redirect(url_for('bilety'))
+    return redirect(url_for('bilety')), 201
 
 
 # usuwanie danych
@@ -244,7 +244,7 @@ def submit_dane():
     kursor.close()
     polaczenie.close()
 
-    return redirect(url_for('usundane'))
+    return redirect(url_for('usundane')),204
 
 
 # edycja danych
