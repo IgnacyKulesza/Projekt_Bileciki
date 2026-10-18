@@ -162,7 +162,7 @@ def login():
     password = request.form.get('password') or ''
     if hmac.compare_digest(username, Config.USERNAME or '') and hmac.compare_digest(password, Config.PASSWORD or ''):
         session['logged'] = True
-        return redirect(url_for('strona_glowna'))
+        return redirect(url_for('strona_glowna')), 200
     else:
         return render_template('index.html', message='Nieprawidłowy email lub hasło'), 401
 

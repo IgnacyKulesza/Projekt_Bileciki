@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS Bilety
     czy_zeskanowane BOOL,
     imie VARCHAR(31),
     nazwisko VARCHAR(63),
-    id_koncertu INTEGER REFERENCES Koncerty(id_koncertu)
+    id_koncertu INTEGER REFERENCES Koncerty(id_koncertu),
+    bilet_qr VARCHAR(1023)
 );
 
 

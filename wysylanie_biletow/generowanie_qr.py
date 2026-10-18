@@ -1,9 +1,11 @@
 import qrcode
 import hashlib
 import secrets
+import base64
+import io
 
 
-def gen_qr(id_biletu):
+def gen_obraz_qr(id_biletu):
     qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_L,
                        box_size=10,                
                        border=4)
@@ -18,4 +20,23 @@ def gen_qr(id_biletu):
     return filepath
 
 
-gen_qr('just_testing')
+def gen_base64(id_biletu):
+    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_L,
+                        box_size=10,                
+                        border=4)
+    qr.add_data(id_biletu)
+    qr.make(fit=True)
+
+
+    img = qr.make_image() # fill_color, back_color dla kustomizacji
+    buffer = io.BytesIO()
+    img.save(buffer,format='PNG')
+
+
+    return base64.b64encode(buffer.getvalue()).decode(encoding='ascii')
+
+
+id = secrets.token_urlsafe(16)
+print(id)
+print(gen_base64(id))
+print(len(gen_base64(id)))
