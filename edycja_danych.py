@@ -2,10 +2,15 @@ import psycopg
 from config import Config
 
 
-def insert(kursor,tabela,argument1,argument2,argument3,argument4,argument5,argument6=0):
+def insert(kursor,tabela,argument1,argument2,argument3,argument4,argument5,argument6=None):
     if tabela == 'Bilety':
-        kursor.execute(f'INSERT INTO Bilety VALUES '+'(%s, %s, %s, %s, %s)',
-                       (argument1,argument2,argument3,argument4,argument5))
+        kursor.execute(
+            """
+            INSERT INTO Bilety (id_biletu, czy_zeskanowane, imie, nazwisko, id_koncertu, qr)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            """,
+            (argument1,argument2,argument3,argument4,argument5,argument6)
+        )
         print(f"dodano {argument1}, {argument2}, {argument3}, {argument4}, {argument5}")
     elif tabela == 'Koncerty':
         kursor.execute(f'INSERT INTO Koncerty(czas,nazwa,zespol,opis,ilosc_biletow) VALUES '+'(%s, %s, %s, %s, %s)',
