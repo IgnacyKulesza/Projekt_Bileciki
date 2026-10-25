@@ -1,3 +1,5 @@
+import base64
+
 from generowanie_qr import gen_qr
 
 import smtplib
@@ -21,10 +23,7 @@ def send_email(email_odbiorcy,id_biletu,imie,koncert):
     mail.attach(MIMEText(tekst, 'plain'))
 
     kod_qr = gen_qr(id_biletu)
-
-    with open(kod_qr, "rb") as f:
-        img_data = f.read()
-        image = MIMEImage(img_data, name=kod_qr)
+    image = MIMEImage(base64.b64decode(kod_qr), name=f"QR-{id_biletu}.png")
 
     mail.attach(image)
 

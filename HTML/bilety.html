@@ -99,7 +99,7 @@
                         </div>
                         {% if wybrany_bilet %}
                         <div class="qr_wrapper">
-                            <img class="qr_image" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&amp;data={{ wybrany_bilet[4] }}" alt="Kod QR biletu">
+                            <img class="qr_image" src="data:image/png;base64,{{ wybrany_bilet[6] }}" alt="Kod QR biletu">
                         </div>
                         <div class="ticket_info">
                             <div class = "ticket_info_row">

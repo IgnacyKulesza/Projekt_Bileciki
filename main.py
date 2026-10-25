@@ -4,6 +4,7 @@ import psycopg
 import edycja_danych as edycja
 import odbieranie_danych as odbieranie
 from config import Config
+from wysylanie_biletow.generowanie_qr import gen_qr
 import hmac
 
 def postgres():
@@ -118,6 +119,7 @@ def bilety():
             )
             strona = min(strona, liczba_stron)
             lista_biletow = odbieranie.getDataTickets(kursor, strona, czy_wygenerowany)
+            polaczenie.commit()
         finally:
             kursor.close()
             polaczenie.close()
@@ -223,12 +225,21 @@ def approute_bilety():
     imie = request.form['imie']
     nazwisko = request.form['nazwisko']
     id_koncertu = request.form['id_koncertu']
+    qr = gen_qr(id_biletu)
 
     polaczenie,kursor = postgres()
-    edycja.insert(kursor,"Bilety",id_biletu,czy_zeskanowane,imie,nazwisko,id_koncertu)
-    polaczenie.commit()
-    kursor.close()
-    polaczenie.close()
+    try:
+        edycja.insert(
+            kursor, "Bilety", id_biletu, czy_zeskanowane, imie, nazwisko, id_koncertu, qr
+        )
+        polaczenie.commit()
+    except Exception:
+        polaczenie.rollback()
+        app.logger.exception('Nie udało się zapisać biletu')
+        raise
+    finally:
+        kursor.close()
+        polaczenie.close()
 
     return redirect(url_for('bilety')), 201
 

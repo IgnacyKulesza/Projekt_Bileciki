@@ -19,8 +19,11 @@ CREATE TABLE IF NOT EXISTS Bilety
     czy_zeskanowane BOOL,
     imie VARCHAR(31),
     nazwisko VARCHAR(63),
-    id_koncertu INTEGER REFERENCES Koncerty(id_koncertu)
+    id_koncertu INTEGER REFERENCES Koncerty(id_koncertu),
+    qr TEXT
 );
+
+ALTER TABLE Bilety ADD COLUMN IF NOT EXISTS qr TEXT;
 
 
 INSERT INTO Koncerty (id_koncertu, czas, nazwa, zespol, opis, ilosc_biletow)
