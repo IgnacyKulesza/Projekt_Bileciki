@@ -1,6 +1,6 @@
 import psycopg
 from config import Config
-from wysylanie_biletow.generowanie_qr import gen_qr
+from wysylanie_biletow.generowanie_qr import gen_base64
 
 CONCERTS_PER_PAGE = 5
 TICKETS_PER_PAGE = 5
@@ -68,7 +68,7 @@ def getDataTickets(kursor, strona, czy_wygenerowany):
     for bilet in kursor.fetchall():
         kod_qr = bilet[6]
         if kod_qr is None:
-            kod_qr = gen_qr(bilet[4])
+            kod_qr = gen_base64(bilet[4])
             kursor.execute(
                 'UPDATE Bilety SET qr = %s WHERE id_biletu = %s',
                 (kod_qr, bilet[4])
