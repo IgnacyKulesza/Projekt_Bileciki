@@ -4,8 +4,9 @@ import psycopg
 import edycja_danych as edycja
 import odbieranie_danych as odbieranie
 from config import Config
-from wysylanie_biletow.generowanie_qr import gen_qr
+from wysylanie_biletow.generowanie_qr import gen_base64
 import hmac
+import secrets
 
 def postgres():
 
@@ -159,7 +160,6 @@ def ustawienia():
 
 @app.route("/login",methods = ['POST'])
 def login():
-    print(request.form)
     username = request.form.get('username') or ''
     password = request.form.get('password') or ''
     if hmac.compare_digest(username, Config.USERNAME or '') and hmac.compare_digest(password, Config.PASSWORD or ''):
@@ -220,12 +220,12 @@ def approute_koncerty():
 # submitowanie danych do serwera
 @app.route('/submit_bilety',methods=['POST'])
 def approute_bilety():
-    id_biletu = request.form['id_biletu']
-    czy_zeskanowane = request.form['czy_zeskanowane']
+    id_biletu = secrets.token_urlsafe(16)
+    czy_zeskanowane = False
     imie = request.form['imie']
     nazwisko = request.form['nazwisko']
     id_koncertu = request.form['id_koncertu']
-    qr = gen_qr(id_biletu)
+    qr = gen_base64(id_biletu)
 
     polaczenie,kursor = postgres()
     try:

@@ -37,9 +37,3 @@ def gen_base64(id_biletu):
 
 
     return base64.b64encode(buffer.getvalue()).decode(encoding='ascii')
-
-
-id = secrets.token_urlsafe(16)
-print(id)
-print(gen_base64(id))
-print(len(gen_base64(id)))
