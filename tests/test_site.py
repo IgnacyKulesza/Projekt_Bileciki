@@ -1,4 +1,6 @@
 from pathlib import Path
+from urllib.parse import parse_qs, urlparse
+from unittest.mock import patch
 import pytest
 import re
 import main as mainmodule
@@ -64,3 +66,42 @@ def test_successful_login(client):
     response = client.post("/login", data = {"username": "siema.mordo@gmail.com",
                                           "password": "ILoveProgramming#2026"})
     assert response.status_code == 200
+
+
+koncert_data = {
+    "czas": "2027-06-15T19:00",
+    "nazwa": "Test concert",
+    "zespol": "Test band",
+    "opis": "Concert description",
+    "ilosc_biletow": "100",
+}
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "expected_message"),
+    [
+        ("czas", "not-a-date", "Wybierz prawidłową datę i godzinę."),
+        ("nazwa", "", "Nazwa koncertu jest wymagana i może mieć maksymalnie 31 znaków."),
+        ("nazwa", "x" * 32, "Nazwa koncertu jest wymagana i może mieć maksymalnie 31 znaków."),
+        ("zespol", "", "Nazwa zespołu jest wymagana i może mieć maksymalnie 127 znaków."),
+        ("zespol", "x" * 128, "Nazwa zespołu jest wymagana i może mieć maksymalnie 127 znaków."),
+        ("opis", "", "Opis jest wymagany i może mieć maksymalnie 513 znaków."),
+        ("opis", "x" * 514, "Opis jest wymagany i może mieć maksymalnie 513 znaków."),
+        ("ilosc_biletow", "abc", "Podaj prawidłową liczbę biletów."),
+        ("ilosc_biletow", "0", "Liczba biletów musi być większa od 0."),
+        ("ilosc_biletow", "-1", "Liczba biletów musi być większa od 0."),
+    ],
+)
+def test_approute_koncerty_rejects_invalid_data(
+    client, field, value, expected_message
+):
+    data = {**koncert_data, field: value}
+
+    with patch.object(mainmodule, "postgres") as postgres:
+        response = client.post("/submit_koncerty", data=data)
+
+    assert response.status_code == 400
+    query = parse_qs(urlparse(response.headers["Location"]).query)
+    assert query["message"] == [expected_message]
+    postgres.assert_not_called()
+    
