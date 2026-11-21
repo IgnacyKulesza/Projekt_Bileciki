@@ -4,6 +4,12 @@ import re
 import main as mainmodule
 
 endpoints = ["/","/strona-glowna","/koncerty","/bilety","/ustawienia"]
+protected_endpoints = [
+    "/strona-glowna",
+    "/koncerty",
+    "/bilety",
+    "/ustawienia",
+]
 
 forms = {"/koncerty": ("/submit_koncerty",['czas','nazwa','zespol','opis','ilosc_biletow']),
          "/bilety": ("/submit_bilety",['imie','nazwisko','id_koncertu']),
@@ -29,11 +35,32 @@ def html(client, address):
 def test_do_pages_open(logged, address):
     response = logged.get(address)
     assert response.status_code == 200
-    assert response.content_type.startswith() == 'text/html'
+    assert response.content_type.startswith("text/html")
 
 @pytest.mark.parametrize("address",endpoints)
 def test_is_complete_HTML(logged, address):
     text = html(logged,address).lower()
     assert "<html" in text and "</html>" in text
 
+@pytest.mark.parametrize("address",protected_endpoints)
+def test_pages_require_login(address,client):
+    response = client.get(address)
+    assert response.status_code == 400
+    assert "Nie zalogowany" in response.get_data(as_text=True)
 
+def test_login_with_wrong_password(client):
+    response = client.post("/login", data = {"username": "siema.mordo@gmail.com",
+                                  "password": "zle-haslo"})
+    assert response.status_code == 401
+    assert "Nieprawidłowy email lub hasło" in response.get_data(as_text = True)
+
+def test_login_with_wrong_email(client):
+    response = client.post("/login", data = {"username": "zly-email@gmail.com",
+                                      "password": "ILoveProgramming#2026"})
+    assert response.status_code == 401
+    assert "Nieprawidłowy email lub hasło" in response.get_data(as_text = True)
+
+def test_successful_login(client):
+    response = client.post("/login", data = {"username": "siema.mordo@gmail.com",
+                                          "password": "ILoveProgramming#2026"})
+    assert response.status_code == 200
