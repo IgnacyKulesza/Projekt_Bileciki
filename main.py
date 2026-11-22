@@ -7,6 +7,7 @@ from config import Config
 from wysylanie_biletow.generowanie_qr import gen_base64
 import hmac
 import secrets
+from flasgger import Swagger
 
 def postgres():
 
@@ -21,18 +22,62 @@ def postgres():
     kursor=polaczenie.cursor()
     return polaczenie,kursor
 
-
 app = Flask(__name__, template_folder="HTML", static_folder="HTML/static")
+app.config["SWAGGER"] = {
+    "title": "Bileciki API",
+    "description": "API aplikacji do zarządzania koncertami i biletami",
+    "version": "1.0.0",
+    "uiversion": 3,
+    "securityDefinitions": {
+        "sessionCookie": {
+            "type": "apiKey",
+            "in": "cookie",
+            "name": "session",
+        }
+    },
+}
+swagger = Swagger(app)
 app.secret_key = Config.SESSION_KEY
 
 
 # zrobić dla każdej strony
 @app.route('/')
 def index():
+    """Zwraca stronę logowania.
+    ---
+    tags:
+      - Pages
+    produces:
+      - text/html
+    responses:
+      200:
+        description: Strona logowania została zwrócona.
+    """
     return render_template('index.html', message=''), 200
 
 @app.route('/strona-glowna')
 def strona_glowna():
+    """Zwraca stronę główną z listą koncertów.
+    ---
+    tags:
+      - Pages
+    produces:
+      - text/html
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: strona
+        in: query
+        type: integer
+        minimum: 1
+        default: 1
+        description: Numer strony wyników.
+    responses:
+      200:
+        description: Strona główna z paginowaną listą koncertów.
+      401:
+        description: Użytkownik nie jest zalogowany.
+    """
     if(session.get('logged')):
         strona = max(1, request.args.get('strona', 1, type=int) or 1)
         polaczenie, kursor = postgres()
@@ -64,10 +109,34 @@ def strona_glowna():
             liczba_koncertow=liczba_koncertow,
         ), 200
     else:
-        return render_template('index.html', message = 'Nie zalogowany'), 400
+        return render_template('index.html', message = 'Nie zalogowany'), 401
 
 @app.route('/koncerty')
 def koncerty():
+    """Zwraca stronę zarządzania koncertami.
+    ---
+    tags:
+      - Pages
+    produces:
+      - text/html
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: strona
+        in: query
+        type: integer
+        minimum: 1
+        default: 1
+      - name: message
+        in: query
+        type: string
+        description: Komunikat po walidacji lub zapisie.
+    responses:
+      200:
+        description: Lista koncertów i formularz tworzenia koncertu.
+      401:
+        description: Użytkownik nie jest zalogowany.
+    """
     if(session.get('logged')):
         strona = max(1, request.args.get('strona', 1, type=int) or 1)
         polaczenie, kursor = postgres()
@@ -100,10 +169,41 @@ def koncerty():
             message=request.args.get('message', ''),
         ),200
     else:
-        return render_template('index.html', message = 'Nie zalogowany'), 400
+        return render_template('index.html', message = 'Nie zalogowany'), 401
 
 @app.route('/bilety')
 def bilety():
+    """Zwraca stronę zarządzania biletami.
+    ---
+    tags:
+      - Pages
+    produces:
+      - text/html
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: status
+        in: query
+        type: string
+        enum:
+          - generated
+          - not_generated
+        default: not_generated
+      - name: strona
+        in: query
+        type: integer
+        minimum: 1
+        default: 1
+      - name: bilet_id
+        in: query
+        type: string
+        description: Identyfikator biletu, który ma zostać wybrany.
+    responses:
+      200:
+        description: Lista biletów i formularz tworzenia biletu.
+      401:
+        description: Użytkownik nie jest zalogowany.
+    """
     if(session.get('logged')):
         status = request.args.get('status', 'not_generated')
         if status not in ('generated', 'not_generated'):
@@ -147,19 +247,54 @@ def bilety():
             liczba_biletow=liczba_biletow,
         ),200
     else:
-        return render_template('index.html', message = 'Nie zalogowany'),400
+        return render_template('index.html', message = 'Nie zalogowany'),401
     
 
 @app.route('/ustawienia')
 def ustawienia():
+    """Zwraca stronę ustawień.
+    ---
+    tags:
+      - Pages
+    produces:
+      - text/html
+    security:
+      - sessionCookie: []
+    responses:
+      200:
+        description: Strona ustawień została zwrócona.
+      401:
+        description: Użytkownik nie jest zalogowany.
+    """
     if(session.get('logged')):
         return render_template('ustawienia.html'), 200
     else:
-        return render_template('index.html', message = 'Nie zalogowany'),400
+        return render_template('index.html', message = 'Nie zalogowany'),401
     
 
 @app.route("/login",methods = ['POST'])
 def login():
+    """Loguje użytkownika za pomocą adresu e-mail i hasła.
+    ---
+    tags:
+      - Authentication
+    consumes:
+      - application/x-www-form-urlencoded
+    parameters:
+      - name: username
+        in: formData
+        type: string
+        required: true
+      - name: password
+        in: formData
+        type: string
+        required: true
+    responses:
+      200:
+        description: Login successful; redirects to the main page.
+      401:
+        description: Invalid email or password.
+    """
     username = request.form.get('username') or ''
     password = request.form.get('password') or ''
     if hmac.compare_digest(username, Config.USERNAME or '') and hmac.compare_digest(password, Config.PASSWORD or ''):
@@ -170,11 +305,69 @@ def login():
 
 @app.route("/logout")
 def logout():
+    """Wylogowuje użytkownika i usuwa sesję.
+    ---
+    tags:
+      - Authentication
+    produces:
+      - text/html
+    security:
+      - sessionCookie: []
+    responses:
+      200:
+        description: Sesja została usunięta i zwrócono stronę logowania.
+    """
     session.clear()
     return render_template('index.html', message = ''),200
 # submitowanie danych do serwera
-@app.route('/submit_koncerty',methods=['POST'])
+@app.route('/submit_koncerty', methods=['POST'])
 def approute_koncerty():
+    """
+    Creates a concert.
+    ---
+    tags:
+      - Concerts
+    consumes:
+      - application/x-www-form-urlencoded
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: czas
+        in: formData
+        type: string
+        format: date-time
+        required: true
+        example: "2027-06-15T19:00"
+      - name: nazwa
+        in: formData
+        type: string
+        minLength: 1
+        maxLength: 31
+        required: true
+      - name: zespol
+        in: formData
+        type: string
+        minLength: 1
+        maxLength: 127
+        required: true
+      - name: opis
+        in: formData
+        type: string
+        minLength: 1
+        maxLength: 513
+        required: true
+      - name: ilosc_biletow
+        in: formData
+        type: integer
+        minimum: 1
+        maximum: 2147483647
+        required: true
+    responses:
+      201:
+        description: Concert created and user redirected.
+      400:
+        description: Invalid form data or database error.
+    """
     try:
         try:
             czas = datetime.fromisoformat(request.form.get('czas', ''))
@@ -220,6 +413,39 @@ def approute_koncerty():
 # submitowanie danych do serwera
 @app.route('/submit_bilety',methods=['POST'])
 def approute_bilety():
+    """Tworzy nowy bilet i generuje jego kod QR.
+    ---
+    tags:
+      - Tickets
+    consumes:
+      - application/x-www-form-urlencoded
+    produces:
+      - text/html
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: imie
+        in: formData
+        type: string
+        maxLength: 31
+        required: true
+      - name: nazwisko
+        in: formData
+        type: string
+        maxLength: 63
+        required: true
+      - name: id_koncertu
+        in: formData
+        type: integer
+        required: true
+    responses:
+      201:
+        description: Bilet został utworzony i użytkownik został przekierowany.
+      400:
+        description: Nieprawidłowe dane formularza.
+      500:
+        description: Nie udało się zapisać biletu lub wygenerować QR.
+    """
     id_biletu = secrets.token_urlsafe(16)
     czy_zeskanowane = False
     imie = request.form['imie']
@@ -247,6 +473,35 @@ def approute_bilety():
 # usuwanie danych
 @app.route('/submit_usun', methods=['POST'])
 def submit_dane():
+    """Usuwa koncert lub bilet według identyfikatora.
+    ---
+    tags:
+      - Administration
+    consumes:
+      - application/x-www-form-urlencoded
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: tabela
+        in: formData
+        type: string
+        enum:
+          - Koncerty
+          - Bilety
+        required: true
+      - name: id
+        in: formData
+        type: integer
+        required: true
+        description: Identyfikator rekordu do usunięcia.
+    responses:
+      204:
+        description: Rekord został usunięty i następuje przekierowanie.
+      400:
+        description: Nieprawidłowa tabela lub identyfikator.
+      500:
+        description: Nie udało się usunąć rekordu z bazy danych.
+    """
     tabela = request.form['tabela']
     usuwane = request.form['id']
     polaczenie,kursor = postgres()
