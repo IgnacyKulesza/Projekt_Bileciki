@@ -2,5 +2,6 @@
 201 - Poprawnie dodano
 204 - Udało ale nic nie zwrócono(po usunieciu zwykle)
 400 - Bad Request(np bledne dane)
+401 - Unauthorised
 404 - Nie znaleziono
 409 - Konflikt(np jak edytujemy koncert ktory juz sie odbyl)

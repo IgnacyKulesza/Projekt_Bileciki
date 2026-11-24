@@ -4,6 +4,7 @@ from unittest.mock import patch
 import pytest
 import re
 import main as mainmodule
+import flasgger
 
 endpoints = ["/","/strona-glowna","/koncerty","/bilety","/ustawienia"]
 protected_endpoints = [
@@ -47,7 +48,7 @@ def test_is_complete_HTML(logged, address):
 @pytest.mark.parametrize("address",protected_endpoints)
 def test_pages_require_login(address,client):
     response = client.get(address)
-    assert response.status_code == 400
+    assert response.status_code == 401
     assert "Nie zalogowany" in response.get_data(as_text=True)
 
 def test_login_with_wrong_password(client):
